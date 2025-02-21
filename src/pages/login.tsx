@@ -1,5 +1,4 @@
 import LoginForm from "@/components/loginform";
-import { title } from "@/components/primitives";
 import DefaultLayout from "@/layouts/default";
 
 export default function LoginPage() {
