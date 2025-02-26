@@ -10,6 +10,7 @@ import DocsPage from "@/pages/docs";
 import PricingPage from "@/pages/pricing";
 import BlogPage from "@/pages/blog";
 import AboutPage from "@/pages/about";
+import TablePage from "./pages/table";
 
 const queryClient = new QueryClient()
 
@@ -33,7 +34,7 @@ function App() {
           <Route element={<PricingPage />} path="/pricing" />
           <Route element={<BlogPage />} path="/blog" />
           <Route element={<AboutPage />} path="/about" />
-          <Route element={<AboutPage />} path="/" />
+          <Route element={<TablePage />} path="/" />
         </Route>
         <Route element={<LoginPage />} path="/login" />
       </Routes>
