@@ -8,12 +8,14 @@ import {
     TableCell
   } from "@heroui/table";
 import { Music } from "@/types/musics";
+import { Spinner } from "@heroui/react";
 
 interface MusicsTableProps {
-  musics: Music[];
+  musics: Music[],
+  isLoading: boolean
 }
 
-export default function MusicsTable({ musics }: MusicsTableProps) {
+export default function MusicsTable({ musics, isLoading }: MusicsTableProps) {
 
   const renderCell = React.useCallback((music: Music) => {
     return (
@@ -38,7 +40,7 @@ export default function MusicsTable({ musics }: MusicsTableProps) {
             <TableColumn>Album</TableColumn>
             <TableColumn align="end" width={20}>Durée</TableColumn>
         </TableHeader>
-        <TableBody>
+        <TableBody isLoading={isLoading} loadingContent={<Spinner label="Chargement..." />}>
           {musics.map((music, index) => (
             <TableRow key={index + 1}>
               <TableCell>{index + 1}.</TableCell>
