@@ -3,9 +3,19 @@ import {Form, Input, Button} from "@heroui/react";
 import { ValidationErrors } from "@react-types/shared";
 
 type UserData = {
-    name: String,
-    email: String,
+    username: String,
     password: String
+}
+
+async function login(user_data:UserData) {
+  const res = await fetch("/api/user/login", {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body:JSON.stringify(user_data)
+  });
+  return res
 }
 
 export default function LoginForm() {
@@ -16,9 +26,8 @@ export default function LoginForm() {
   const onSubmit = (e: { preventDefault: () => void; currentTarget: HTMLFormElement | undefined; }) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const data = {
-        name: formData.get('name') as string,
-        email: formData.get('email') as string,
+    const user_data = {
+        username: formData.get('username') as string,
         password: formData.get('password') as string
     };
 
@@ -26,7 +35,7 @@ export default function LoginForm() {
     const newErrors: ValidationErrors = {};
 
     // Username validation
-    if (data.name === "admin") {
+    if (user_data.username === "admin") {
       newErrors.name = "Nice try! Choose a different username";
     }
 
@@ -38,7 +47,13 @@ export default function LoginForm() {
 
     // Clear errors and submit
     setErrors({});
-    setSubmitted(data);
+
+    login(user_data).then((result) => {
+      if (!result.ok) {
+        setErrors({name: "Nom d'utilisateur ou mot de passe incorrect"})
+      }
+    });
+    
   };
 
   return (
@@ -60,25 +75,8 @@ export default function LoginForm() {
           }}
           label="Name"
           labelPlacement="outside"
-          name="name"
+          name="username"
           placeholder="Enter your name"
-        />
-
-        <Input
-          isRequired
-          errorMessage={({validationDetails}) => {
-            if (validationDetails.valueMissing) {
-              return "Please enter your email";
-            }
-            if (validationDetails.typeMismatch) {
-              return "Please enter a valid email address";
-            }
-          }}
-          label="Email"
-          labelPlacement="outside"
-          name="email"
-          placeholder="Enter your email"
-          type="email"
         />
 
         <Input
@@ -92,7 +90,7 @@ export default function LoginForm() {
           onValueChange={setPassword}
         />
 
-        {errors.terms && <span className="text-danger text-small">{errors.terms}</span>}
+        {errors.name && <span className="text-danger text-small">{errors.name}</span>}
 
         <div className="flex gap-4 ">
           <Button className="w-full" color="primary" type="submit">
