@@ -18,8 +18,8 @@ export default function MusicsTable({ musics }: MusicsTableProps) {
   const renderCell = React.useCallback((music: Music) => {
     return (
       <div className="flex flex-col">
-        <p className="text-bold text-sm capitalize hover:underline hover:cursor-pointer w-min">{music.title}</p>
-        <p className="text-bold text-sm capitalize text-default-400 hover:underline hover:cursor-pointer w-min">{music.artist.name}</p>
+        <p className="text-bold text-sm capitalize hover:underline hover:cursor-pointer w-min whitespace-nowrap">{music.title}</p>
+        <p className="text-bold text-sm capitalize text-default-400 hover:underline hover:cursor-pointer w-min whitespace-nowrap">{music.artist.name}</p>
       </div>
     );
   }, []);
