@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Outlet, Route, Routes, useLocation } from "react-router-dom";
 import {
   QueryClient,
   QueryClientProvider,
@@ -13,16 +13,30 @@ import AboutPage from "@/pages/about";
 
 const queryClient = new QueryClient()
 
+const AuthWrapper = () => {
+  const is_authenticated = (localStorage.getItem('is_authenticated') == 'true');
+  const location = useLocation();
+
+  return is_authenticated ? (
+    <Outlet />
+  ) : (
+    <Navigate to="/login" replace state={{ from: location }} />
+  );
+};
+
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-    <Routes>
-      <Route element={<LoginPage />} path="/" />
-      <Route element={<DocsPage />} path="/docs" />
-      <Route element={<PricingPage />} path="/pricing" />
-      <Route element={<BlogPage />} path="/blog" />
-      <Route element={<AboutPage />} path="/about" />
-    </Routes>
+      <Routes>
+        <Route element={<AuthWrapper />} >
+          <Route element={<DocsPage />} path="/docs" />
+          <Route element={<PricingPage />} path="/pricing" />
+          <Route element={<BlogPage />} path="/blog" />
+          <Route element={<AboutPage />} path="/about" />
+          <Route element={<AboutPage />} path="/" />
+        </Route>
+        <Route element={<LoginPage />} path="/login" />
+      </Routes>
     </QueryClientProvider>
   );
 }

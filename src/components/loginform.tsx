@@ -1,6 +1,7 @@
 import React from "react";
 import {Form, Input, Button} from "@heroui/react";
 import { ValidationErrors } from "@react-types/shared";
+import { useNavigate } from "react-router-dom";
 
 type UserData = {
     username: String,
@@ -22,6 +23,7 @@ export default function LoginForm() {
   const [password, setPassword] = React.useState("");
   const [submitted, setSubmitted] = React.useState<UserData | null>(null);
   const [errors, setErrors] = React.useState<ValidationErrors>({});
+  const navigate = useNavigate();
 
   const onSubmit = (e: { preventDefault: () => void; currentTarget: HTMLFormElement | undefined; }) => {
     e.preventDefault();
@@ -51,6 +53,9 @@ export default function LoginForm() {
     login(user_data).then((result) => {
       if (!result.ok) {
         setErrors({name: "Nom d'utilisateur ou mot de passe incorrect"})
+      } else {
+        localStorage.setItem('is_authenticated', 'true');
+        navigate('/');
       }
     });
     
