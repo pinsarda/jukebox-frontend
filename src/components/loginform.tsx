@@ -1,5 +1,5 @@
 import React from "react";
-import {Form, Input, Button} from "@heroui/react";
+import {Form, Input, Button, Link, Divider} from "@heroui/react";
 import { ValidationErrors } from "@react-types/shared";
 import { useNavigate } from "react-router-dom";
 
@@ -74,8 +74,16 @@ export default function LoginForm() {
         {errors.name && <span className="text-danger text-small">{errors.name}</span>}
 
         <div className="flex gap-4 ">
-          <Button isLoading={loading} className="w-full h-14" color="primary" type="submit">
-            Submit
+          <Button isLoading={loading} className="w-full h-14 text-medium" color="primary" type="submit">
+            Se connecter
+          </Button>
+        </div>
+
+        <Divider className="my-4" />
+
+        <div className="flex gap-4">
+          <Button className="w-full h-14 text-medium" color="primary" variant="bordered" onPress={() => {navigate("/signup")}}>
+            Créer un compte 
           </Button>
         </div>
       </div>
