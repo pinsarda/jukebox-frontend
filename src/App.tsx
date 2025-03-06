@@ -11,6 +11,7 @@ import PricingPage from "@/pages/pricing";
 import BlogPage from "@/pages/blog";
 import AboutPage from "@/pages/about";
 import TablePage from "./pages/table";
+import SignupPage from "./pages/signup";
 
 const queryClient = new QueryClient()
 
@@ -37,6 +38,7 @@ function App() {
           <Route element={<TablePage />} path="/" />
         </Route>
         <Route element={<LoginPage />} path="/login" />
+        <Route element={<SignupPage />} path="/signup" />
       </Routes>
     </QueryClientProvider>
   );
