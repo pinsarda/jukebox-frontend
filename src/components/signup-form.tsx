@@ -1,10 +1,10 @@
 import React from "react";
-import {Form, Input, Button, Divider} from "@heroui/react";
+import {Form, Input, Button} from "@heroui/react";
 import { ValidationErrors } from "@react-types/shared";
 import { useNavigate } from "react-router-dom";
-import { login } from "@/api-wrapper";
+import { login, signup } from "@/api-wrapper";
 
-export default function LoginForm() {
+export default function SignupForm() {
   const [password, setPassword] = React.useState("");
   const [loading, setLoading] = React.useState(false);
   const [errors, setErrors] = React.useState<ValidationErrors>({});
@@ -21,16 +21,15 @@ export default function LoginForm() {
 
     setErrors({});
 
-    login(user_data).then((result) => {
+    signup(user_data).then((result) => {
       if (!result.ok) {
-        setErrors({name: "Nom d'utilisateur ou mot de passe incorrect"})
+        setErrors({name: "Nom d'utilisateur indisponible"})
         setLoading(false);
       } else {
-        localStorage.setItem('is_authenticated', 'true');
+        login(user_data);
         navigate('/');
       }
     });
-    
   };
 
   return (
@@ -60,20 +59,10 @@ export default function LoginForm() {
 
         <div className="flex gap-4 ">
           <Button isLoading={loading} className="w-full h-14 text-medium" color="primary" type="submit">
-            Se connecter
-          </Button>
-        </div>
-
-        <Divider className="my-4" />
-
-        <div className="flex gap-4">
-          <Button className="w-full h-14 text-medium" color="primary" variant="bordered" onPress={() => {navigate("/signup")}}>
-            Créer un compte 
+            Créer un compte
           </Button>
         </div>
       </div>
-
     </Form>
   );
 }
-
