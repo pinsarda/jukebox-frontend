@@ -1,5 +1,5 @@
 import DefaultLayout from "@/layouts/default";
-import Title from "@/components/music-card";
+import MusicCard from "@/components/music-card";
 import ArtistCard from "@/components/artist-card";
 import { Music, Artist, Album } from "@/types/musics";
 import { useQuery } from "@tanstack/react-query";
@@ -45,7 +45,7 @@ export default function SearchPage() {
             } */}
             <div className="w-full justify-items-center m-2 space-y-5">
                 {musics.map((music) => (
-                  <Title music={music} />
+                  <MusicCard music={music} />
                 ))}
             </div>
         </div>
