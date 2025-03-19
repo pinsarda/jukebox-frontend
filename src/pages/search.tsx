@@ -14,7 +14,7 @@ export default function SearchPage() {
   let albums: Album[] = [];
 
   const { isLoading, data } = useQuery({
-    queryKey: ['musics'],
+    queryKey: ['musics', query],
     queryFn: () =>
       fetch('/api/search?' + new URLSearchParams({
             query: query ?? ''
