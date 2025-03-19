@@ -1,3 +1,4 @@
+import { add_to_queue } from "@/api-wrapper";
 import { Music } from "@/types/musics";
 import {Card, Image} from "@heroui/react";
 
@@ -10,15 +11,27 @@ export default function MusicCard({ music }: MusicCardProps) {
   
 
   return (
-    <Card className="py-4 w-full h-12 flex-row pb-0 pt-2 px-4 items-start justify-items-center space-x-3">
+    <Card className="flex-row p-4 items-center justify-items-center gap-4"
+      fullWidth={true}
+      isPressable={true}
+      isHoverable={true}
+      disableRipple={true}
+      onPress={() => {
+        add_to_queue({ id : music.id });
+      }}>
       <Image
           alt="Card background"
           className="object-cover rounded-xl"
           src="https://heroui.com/images/hero-card-complete.jpeg"
-          width={32.5}
-          height={32.5}
+          width={60}
+          height={60}
       />
-      <h4 className="font-bold text-large">{ music.title }</h4>
+      <div>
+        <h4 className="font-bold text-large text-start">{ music.title }</h4>
+        <h4 className="text-medium text-start">{ music.artists[0].name }</h4>
+      </div>
+      <h4 className="ml-auto text-medium">{ music.album_title }</h4>
+      <h4 className="text-medium">1:00</h4>
     </Card>
   );
 }

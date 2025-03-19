@@ -5,3 +5,5 @@ export type Music = components["schemas"]["RichMusic"];
 export type Album = components["schemas"]["RichAlbum"];
 
 export type Artist = components["schemas"]["RichMusic"];
+
+export type Id = components["schemas"]["Id"];

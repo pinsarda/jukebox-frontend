@@ -43,7 +43,7 @@ export default function SearchPage() {
             {/* {artists.length != 0 &&
               <ArtistCard artist={ artists[0] } />
             } */}
-            <div className="w-full justify-items-center m-2 space-y-5">
+            <div className="w-full justify-items-center m-2 space-y-2">
                 {musics.map((music) => (
                   <MusicCard music={music} />
                 ))}
