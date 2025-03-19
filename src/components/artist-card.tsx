@@ -1,6 +1,11 @@
+import { Artist } from "@/types/musics";
 import {Card, CardHeader, CardBody, Image} from "@heroui/react";
 
-export default function Artist() {
+interface ArtistCardProps {
+  artist: Artist,
+}
+
+export default function ArtistCard({ artist }: ArtistCardProps) {
   return (
     <Card className="py-4 w-5/12">
       <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
@@ -13,7 +18,7 @@ export default function Artist() {
         />
       </CardHeader>
       <CardBody className="overflow-visible py-2 px-4">
-        <h4 className="font-bold text-3xl">Frontend Radio</h4>
+        <h4 className="font-bold text-3xl">{artist.name}</h4>
       </CardBody>
     </Card>
   );
