@@ -14,7 +14,7 @@ export default function DefaultLayout({
       <main className="container mx-auto max-w-7xl px-6 flex-grow pt-16">
         {children}
       </main>
-      <div className="w-full justify-items-center">
+      <div className="flex justify-center w-full justify-items-center">
         <Player />
       </div>
       <footer className="w-full flex items-center justify-center py-3">
