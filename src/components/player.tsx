@@ -1,6 +1,6 @@
 import React from "react";
-import {Card, CardBody, Image, Button, Slider} from "@heroui/react";
-import { HeartIcon, NextIcon, PauseCircleIcon, PreviousIcon, RepeatOneIcon, ShuffleIcon } from "@/icons";
+import {Card, CardBody, Button, Slider} from "@heroui/react";
+import {HeartIcon, NextIcon, PauseCircleIcon, PreviousIcon, RepeatOneIcon, ShuffleIcon} from "@/components/icons";
 
 export default function Player() {
   const [liked, setLiked] = React.useState(false);
