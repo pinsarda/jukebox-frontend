@@ -1,5 +1,5 @@
 import DefaultLayout from "@/layouts/default";
-import Title from "@/components/title";
+import Title from "@/components/music-card";
 import ArtistCard from "@/components/artist-card";
 import { Music, Artist, Album } from "@/types/musics";
 import { useQuery } from "@tanstack/react-query";
