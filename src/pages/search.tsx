@@ -13,10 +13,6 @@ export default function SearchPage() {
   let artists: Artist[] = [];
   let albums: Album[] = [];
 
-  let artist: Artist = {
-    name: "tmp"
-  };
-
   const { isLoading, data } = useQuery({
     queryKey: ['musics'],
     queryFn: () =>
@@ -35,29 +31,18 @@ export default function SearchPage() {
   if (data) {
     console.log(data);
 
-    if (data.artists.length > 0) {
-      artist = data.artists[0];
-    }
-
-    musics = (data.musics.map((music: {
-      album_title: any;
-      artists: any; title: any; 
-    }) => (
-      {
-        title: music.title,
-        artist: {name: music.artists[0].name},
-        album: {title: music.album_title}
-      }
-    )))
+    musics = data.musics;
+    artists = data.artists;
+    albums = data.albums;
   };
-
-
 
   return (
     <DefaultLayout>
       <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10 w-full">
         <div className="w-full justify-items-center flex">
-            <ArtistCard artist={ artist } />
+            {/* {artists.length != 0 &&
+              <ArtistCard artist={ artists[0] } />
+            } */}
             <div className="w-full justify-items-center m-2 space-y-5">
                 {musics.map((music) => (
                   <Title music={music} />
