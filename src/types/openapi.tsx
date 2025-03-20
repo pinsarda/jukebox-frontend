@@ -458,6 +458,12 @@ export interface components {
             title: string;
             youtube_id?: string | null;
         };
+        RichPlayerState: {
+            is_playing: boolean;
+            queue: components["schemas"]["RichMusic"][];
+            /** Format: int32 */
+            queue_index: number;
+        };
         SearchQuery: {
             query: string;
         };
@@ -703,7 +709,9 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
-                content?: never;
+                content: {
+                    "application/json": components["schemas"]["RichPlayerState"];
+                };
             };
             403: {
                 headers: {

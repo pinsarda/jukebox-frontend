@@ -1,11 +1,29 @@
 import React from "react";
-import {Card, CardBody, Button, Slider} from "@heroui/react";
+import {Card, CardBody, Button, Slider, Link} from "@heroui/react";
 import {HeartIcon, NextIcon, PauseCircleIcon, PlayCircleIcon, PreviousIcon, RepeatOneIcon, ShuffleIcon} from "@/components/icons";
 import { next, pause, play, previous } from "@/api-wrapper";
+import { useQuery } from "@tanstack/react-query";
+import { PlayerState } from "@/types/musics";
 
 export default function Player() {
-  const [liked, setLiked] = React.useState(false);
-  const [playing, setPlaying] = React.useState(true);
+
+  var retry = true;
+
+  const { isLoading, data, refetch } = useQuery({
+    queryKey: ['state', retry],
+    queryFn: () =>
+      fetch('/api/player/state?', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }).then((res) =>
+        res.json(),
+      ),
+  });
+
+  let state: PlayerState = data;
+  let empty = !isLoading && (state.queue.length == 0)
 
   return (
     <Card
@@ -16,14 +34,25 @@ export default function Player() {
       <CardBody>
         <div className="gap-6 md:gap-4 items-center justify-center">
           <div className="flex flex-col col-span-6 md:col-span-8">
+
+          { !isLoading && (
             <div className="flex justify-between items-start">
               <div className="flex flex-col gap-0">
-                <h3 className="font-semibold text-foreground/90">Daily Mix</h3>
-                <p className="text-small text-foreground/80">12 Tracks</p>
-                <h1 className="text-large font-medium mt-2">Frontend Radio</h1>
+                <h3 className="font-semibold text-foreground/90">{ state.queue[state.queue_index].title ?? '---' }</h3>
+                <Link className="text-medium text-start w-full" isDisabled={empty} underline="hover" color="foreground"
+                  href={"/album/" + (state.queue[state.queue_index].album_id ?? '0') }>
+                  { state.queue[state.queue_index].album_title ?? '----' }
+                </Link>
+                <Link className="text-medium text-start w-full" isDisabled={empty} underline="hover" color="foreground"
+                  href={"/artist/" + (state.queue[state.queue_index].artists[0].id ?? '0') }>
+                  { state.queue[state.queue_index].artists[0].name ?? '---' }
+                </Link>
+                <h1 className="text-small text-foreground/80">
+                  
+                </h1>
               </div>
 
-              <div className="w-4/5">
+              <div className="w-4/5 self-center">
                 <div className="flex flex-col mt-3 gap-1 w-full">
 
                   <Slider
@@ -55,7 +84,7 @@ export default function Player() {
                       className="data-[hover]:bg-foreground/10"
                       radius="full"
                       variant="light"
-                      onPress={previous}
+                      onPress={() => { previous(); refetch(); }}
                     >
                       <PreviousIcon />
                     </Button>
@@ -65,7 +94,7 @@ export default function Player() {
                       radius="full"
                       variant="light"
                       onPress={() => {
-                        switch (playing) {
+                        switch (state.is_playing) {
                           case false: 
                             play();
                             break;
@@ -73,13 +102,13 @@ export default function Player() {
                             pause();
                             break;
                         }
-                        setPlaying(!playing);
+                        refetch();
                       }}
                     >
-                      {playing && 
+                      {state.is_playing && 
                         <PauseCircleIcon size={54} />
                       }
-                      {!playing && 
+                      {!state.is_playing && 
                         <PlayCircleIcon size={54} />
                       }
                     </Button>
@@ -88,7 +117,7 @@ export default function Player() {
                       className="data-[hover]:bg-foreground/10"
                       radius="full"
                       variant="light"
-                      onPress={next}
+                      onPress={() => { next(); refetch(); }}
                     >
                       <NextIcon />
                     </Button>
@@ -109,14 +138,18 @@ export default function Player() {
                 className="text-default-900/60 data-[hover]:bg-foreground/10 -translate-y-2 translate-x-2"
                 radius="full"
                 variant="light"
-                onPress={() => setLiked((v) => !v)}
+                // onPress={() => setLiked((v) => !v)}
               >
                 <HeartIcon
-                  className={liked ? "[&>path]:stroke-transparent" : ""}
-                  fill={liked ? "currentColor" : "none"}
+                  className={(!empty ? state.queue[state.queue_index].is_favorited : false) ? "[&>path]:stroke-transparent" : ""}
+                  fill={(!empty ? state.queue[state.queue_index].is_favorited : false) ? "currentColor" : "none"}
+                  // className={true ? "[&>path]:stroke-transparent" : ""}
+                  // fill={true ? "currentColor" : "none"}
                 />
               </Button>
             </div>
+          )}
+
           </div>
         </div>
       </CardBody>
