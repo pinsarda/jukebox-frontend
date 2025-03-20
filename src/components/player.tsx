@@ -1,7 +1,7 @@
 import React from "react";
 import {Card, CardBody, Button, Slider} from "@heroui/react";
 import {HeartIcon, NextIcon, PauseCircleIcon, PlayCircleIcon, PreviousIcon, RepeatOneIcon, ShuffleIcon} from "@/components/icons";
-import { pause, play } from "@/api-wrapper";
+import { next, pause, play, previous } from "@/api-wrapper";
 
 export default function Player() {
   const [liked, setLiked] = React.useState(false);
@@ -55,6 +55,7 @@ export default function Player() {
                       className="data-[hover]:bg-foreground/10"
                       radius="full"
                       variant="light"
+                      onPress={previous}
                     >
                       <PreviousIcon />
                     </Button>
@@ -87,6 +88,7 @@ export default function Player() {
                       className="data-[hover]:bg-foreground/10"
                       radius="full"
                       variant="light"
+                      onPress={next}
                     >
                       <NextIcon />
                     </Button>

@@ -53,3 +53,23 @@ export async function pause() {
   });
   return res
 }
+
+export async function next() {
+  const res = await fetch("/api/player/next", {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+  return res
+}
+
+export async function previous() {
+  const res = await fetch("/api/player/previous", {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+  return res
+}
