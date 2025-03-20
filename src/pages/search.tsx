@@ -1,7 +1,7 @@
 import DefaultLayout from "@/layouts/default";
 import MusicCard from "@/components/music-card";
 import ArtistCard from "@/components/artist-card";
-import { Music, Artist, Album } from "@/types/musics";
+import { Music, Artist, Album } from "@/types/backend";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 

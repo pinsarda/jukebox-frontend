@@ -3,7 +3,7 @@ import {Card, CardBody, Button, Slider, Link} from "@heroui/react";
 import {HeartIcon, NextIcon, PauseCircleIcon, PlayCircleIcon, PreviousIcon, RepeatOneIcon, ShuffleIcon} from "@/components/icons";
 import { next, pause, play, previous } from "@/api-wrapper";
 import { useQuery } from "@tanstack/react-query";
-import { PlayerState } from "@/types/musics";
+import { PlayerState } from "@/types/backend";
 
 export default function Player() {
 

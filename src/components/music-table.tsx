@@ -7,7 +7,7 @@ import {
     TableRow,
     TableCell
   } from "@heroui/table";
-import { Music } from "@/types/musics";
+import { Music } from "@/types/backend";
 import { Spinner } from "@heroui/react";
 
 interface MusicsTableProps {

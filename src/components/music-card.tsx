@@ -1,5 +1,5 @@
 import { add_to_queue } from "@/api-wrapper";
-import { Music } from "@/types/musics";
+import { Music } from "@/types/backend";
 import {Card, Image, Link} from "@heroui/react";
 
 interface MusicCardProps {

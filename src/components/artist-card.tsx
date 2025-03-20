@@ -1,4 +1,4 @@
-import { Artist } from "@/types/musics";
+import { Artist } from "@/types/backend";
 import {Card, CardHeader, CardBody, Image} from "@heroui/react";
 
 interface ArtistCardProps {

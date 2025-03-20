@@ -382,11 +382,33 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        FetcherAlbum: {
+            artists: components["schemas"]["FetcherArtist"][];
+            fetcher_id?: string | null;
+            musics: components["schemas"]["FetcherMusic"][];
+            title: string;
+        };
+        FetcherArtist: {
+            fetcher_id?: string | null;
+            name: string;
+        };
+        FetcherMusic: {
+            artists: components["schemas"]["FetcherArtist"][];
+            fetcher_id?: string | null;
+            title: string;
+        };
         FetcherQueryData: {
             album_title: string;
             artist_name: string;
             fetcher_id?: string | null;
             title: string;
+        };
+        FetcherSearchResult: {
+            Music: components["schemas"]["FetcherMusic"];
+        } | {
+            Album: components["schemas"]["FetcherAlbum"];
+        } | {
+            Artist: components["schemas"]["FetcherArtist"];
         };
         Id: {
             /** Format: int32 */
@@ -541,7 +563,20 @@ export interface operations {
                 "application/json": components["schemas"]["FetcherQueryData"];
             };
         };
-        responses: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
     };
     yt_music_search: {
         parameters: {
@@ -550,8 +585,27 @@ export interface operations {
             path?: never;
             cookie?: never;
         };
-        requestBody?: never;
-        responses: never;
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SearchQuery"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FetcherSearchResult"][];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
     };
     add_music: {
         parameters: {

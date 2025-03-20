@@ -1,6 +1,6 @@
 import DefaultLayout from "@/layouts/default";
 import MusicCard from "@/components/music-card";
-import { Music } from "@/types/musics";
+import { Music } from "@/types/backend";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { Spinner } from "@heroui/react";
