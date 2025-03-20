@@ -36,8 +36,8 @@ export default function Player() {
           <div className="flex flex-col col-span-6 md:col-span-8">
 
           { !isLoading && (
-            <div className="flex justify-between items-start">
-              <div className="flex flex-col gap-0">
+            <div className="flex items-start">
+              <div className="w-1/4 flex flex-col gap-0">
                 <h3 className="font-semibold text-foreground/90">{ !empty ? state.queue[state.queue_index].title : '---' }</h3>
                 <Link className="text-medium text-start w-full" isDisabled={empty} underline="hover" color="foreground"
                   href={"/album/" + (!empty ? state.queue[state.queue_index].album_id : '0') }>
@@ -53,7 +53,7 @@ export default function Player() {
                 </h1>
               </div>
 
-              <div className="w-4/5 self-center">
+              <div className="w-1/2 self-center">
                 <div className="flex flex-col mt-3 gap-1 w-full">
 
                   <Slider
@@ -135,20 +135,19 @@ export default function Player() {
 
                 </div>
               </div>
-              <Button
-                isIconOnly  // vérifier que ça ne bloque pas l'utilisabilité du "play button"
-                className="text-default-900/60 data-[hover]:bg-foreground/10 -translate-y-2 translate-x-2"
-                radius="full"
-                variant="light"
-                // onPress={() => setLiked((v) => !v)}
-              >
-                <HeartIcon
-                  className={(!empty ? state.queue[state.queue_index].is_favorited : false) ? "[&>path]:stroke-transparent" : ""}
-                  fill={(!empty ? state.queue[state.queue_index].is_favorited : false) ? "currentColor" : "none"}
-                  // className={true ? "[&>path]:stroke-transparent" : ""}
-                  // fill={true ? "currentColor" : "none"}
-                />
-              </Button>
+              <div className="w-1/4 flex justify-end">
+                <Button
+                  isIconOnly  // vérifier que ça ne bloque pas l'utilisabilité du "play button"
+                  className="text-default-900/60 data-[hover]:bg-foreground/10"
+                  radius="full"
+                  variant="light"
+                >
+                  <HeartIcon
+                    className={(!empty ? state.queue[state.queue_index].is_favorited : false) ? "[&>path]:stroke-transparent" : ""}
+                    fill={(!empty ? state.queue[state.queue_index].is_favorited : false) ? "currentColor" : "none"}
+                  />
+                </Button>
+              </div>
             </div>
           )}
 
