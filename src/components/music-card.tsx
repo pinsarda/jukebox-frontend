@@ -22,7 +22,7 @@ export default function MusicCard({ music }: MusicCardProps) {
       <Image
           alt="Card background"
           className="object-cover rounded-xl"
-          src="https://heroui.com/images/hero-card-complete.jpeg"
+          src={"/api/static/" + music.album_id + "/cover.jpg"}
           width={60}
           height={60}
       />
