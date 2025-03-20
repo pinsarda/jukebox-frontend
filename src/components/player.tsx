@@ -12,7 +12,7 @@ export default function Player() {
   const { isLoading, data, refetch } = useQuery({
     queryKey: ['state', retry],
     queryFn: () =>
-      fetch('/api/player/state?', {
+      fetch('/api/player/state', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

@@ -382,33 +382,15 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
-        FetcherAlbum: {
-            artists: components["schemas"]["FetcherArtist"][];
-            fetcher_id?: string | null;
-            musics: components["schemas"]["FetcherMusic"][];
-            title: string;
-        };
         FetcherArtist: {
             fetcher_id?: string | null;
             name: string;
         };
         FetcherMusic: {
+            album_title: string;
             artists: components["schemas"]["FetcherArtist"][];
             fetcher_id?: string | null;
             title: string;
-        };
-        FetcherQueryData: {
-            album_title: string;
-            artist_name: string;
-            fetcher_id?: string | null;
-            title: string;
-        };
-        FetcherSearchResult: {
-            Music: components["schemas"]["FetcherMusic"];
-        } | {
-            Album: components["schemas"]["FetcherAlbum"];
-        } | {
-            Artist: components["schemas"]["FetcherArtist"];
         };
         Id: {
             /** Format: int32 */
@@ -560,7 +542,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["FetcherQueryData"];
+                "application/json": components["schemas"]["FetcherMusic"];
             };
         };
         responses: {
@@ -596,7 +578,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": components["schemas"]["FetcherSearchResult"][];
+                    "application/json": components["schemas"]["FetcherMusic"][];
                 };
             };
             403: {

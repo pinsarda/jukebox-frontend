@@ -1,4 +1,4 @@
-import { Id } from "./types/backend";
+import { FetcherMusic, Id } from "./types/backend";
 import { UserData } from "./types/user";
 
 export async function login(user_data:UserData) {
