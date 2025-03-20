@@ -106,6 +106,7 @@ export default function Player() {
                         refetch();
                       }}
                     >
+                      {empty && <PauseCircleIcon size={54} />}
                       {!empty && state.is_playing && 
                         <PauseCircleIcon size={54} />
                       }
