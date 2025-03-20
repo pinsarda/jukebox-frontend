@@ -390,6 +390,7 @@ export interface components {
             album_title: string;
             artists: components["schemas"]["FetcherArtist"][];
             fetcher_id?: string | null;
+            thumb_url?: string | null;
             title: string;
         };
         Id: {

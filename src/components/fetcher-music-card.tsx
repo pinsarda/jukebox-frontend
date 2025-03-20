@@ -25,8 +25,6 @@ export default function FetcherMusicCard({ fetcher_music, on_added }: FetcherMus
           console.log(on_added);
           if (on_added) {
             on_added();
-            on_added();
-            on_added();
           }
           res.json()
         }
@@ -48,7 +46,10 @@ export default function FetcherMusicCard({ fetcher_music, on_added }: FetcherMus
       <Image
           alt="Card background"
           className="object-cover rounded-xl"
-          src="https://heroui.com/images/hero-card-complete.jpeg"
+          src= {
+            fetcher_music.thumb_url ??
+            "https://heroui.com/images/hero-card-complete.jpeg"
+          }  
           width={60}
           height={60}
       />
