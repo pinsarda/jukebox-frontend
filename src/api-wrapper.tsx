@@ -33,3 +33,23 @@ export async function add_to_queue(id:Id) {
   });
   return res
 }
+
+export async function play() {
+  const res = await fetch("/api/player/play", {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+  return res
+}
+
+export async function pause() {
+  const res = await fetch("/api/player/pause", {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+  return res
+}

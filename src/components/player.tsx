@@ -1,9 +1,11 @@
 import React from "react";
 import {Card, CardBody, Button, Slider} from "@heroui/react";
-import {HeartIcon, NextIcon, PauseCircleIcon, PreviousIcon, RepeatOneIcon, ShuffleIcon} from "@/components/icons";
+import {HeartIcon, NextIcon, PauseCircleIcon, PlayCircleIcon, PreviousIcon, RepeatOneIcon, ShuffleIcon} from "@/components/icons";
+import { pause, play } from "@/api-wrapper";
 
 export default function Player() {
   const [liked, setLiked] = React.useState(false);
+  const [playing, setPlaying] = React.useState(true);
 
   return (
     <Card
@@ -61,8 +63,24 @@ export default function Player() {
                       className="w-auto h-auto data-[hover]:bg-foreground/10"
                       radius="full"
                       variant="light"
+                      onPress={() => {
+                        switch (playing) {
+                          case false: 
+                            play();
+                            break;
+                          case true:
+                            pause();
+                            break;
+                        }
+                        setPlaying(!playing);
+                      }}
                     >
-                      <PauseCircleIcon size={54} />
+                      {playing && 
+                        <PauseCircleIcon size={54} />
+                      }
+                      {!playing && 
+                        <PlayCircleIcon size={54} />
+                      }
                     </Button>
                     <Button
                       isIconOnly
