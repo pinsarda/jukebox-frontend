@@ -38,14 +38,15 @@ export default function Player() {
           { !isLoading && (
             <div className="flex justify-between items-start">
               <div className="flex flex-col gap-0">
-                <h3 className="font-semibold text-foreground/90">{ state.queue[state.queue_index].title ?? '---' }</h3>
+                <h3 className="font-semibold text-foreground/90">{ !empty ? state.queue[state.queue_index].title : '---' }</h3>
                 <Link className="text-medium text-start w-full" isDisabled={empty} underline="hover" color="foreground"
-                  href={"/album/" + (state.queue[state.queue_index].album_id ?? '0') }>
-                  { state.queue[state.queue_index].album_title ?? '----' }
+                  href={"/album/" + (!empty ? state.queue[state.queue_index].album_id : '0') }>
+                  { !empty ? state.queue[state.queue_index].album_title : '----' }
                 </Link>
                 <Link className="text-medium text-start w-full" isDisabled={empty} underline="hover" color="foreground"
-                  href={"/artist/" + (state.queue[state.queue_index].artists[0].id ?? '0') }>
-                  { state.queue[state.queue_index].artists[0].name ?? '---' }
+                  href={"/artist/" + (!empty && state.queue[state.queue_index].artists.length > 0
+                                      ? state.queue[state.queue_index].artists[0].id : '0') }>
+                  { !empty ? state.queue[state.queue_index].artists[0].name : '---' }
                 </Link>
                 <h1 className="text-small text-foreground/80">
                   
@@ -105,10 +106,10 @@ export default function Player() {
                         refetch();
                       }}
                     >
-                      {state.is_playing && 
+                      {!empty && state.is_playing && 
                         <PauseCircleIcon size={54} />
                       }
-                      {!state.is_playing && 
+                      {!empty && !state.is_playing && 
                         <PlayCircleIcon size={54} />
                       }
                     </Button>
