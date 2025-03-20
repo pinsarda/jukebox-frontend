@@ -12,6 +12,8 @@ import BlogPage from "@/pages/blog";
 import AboutPage from "@/pages/about";
 import TablePage from "./pages/table";
 import SignupPage from "./pages/signup";
+import SearchPage from "./pages/search";
+import AlbumPage from "./pages/album";
 
 const queryClient = new QueryClient()
 
@@ -35,6 +37,8 @@ function App() {
           <Route element={<PricingPage />} path="/pricing" />
           <Route element={<BlogPage />} path="/blog" />
           <Route element={<AboutPage />} path="/about" />
+          <Route element={<SearchPage />} path="/search/:query/" />
+          <Route element={<AlbumPage />} path="/album/:id/" />
           <Route element={<TablePage />} path="/" />
         </Route>
         <Route element={<LoginPage />} path="/login" />

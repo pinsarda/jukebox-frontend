@@ -1,6 +1,7 @@
 import { Link } from "@heroui/link";
 
 import { Navbar } from "@/components/navbar";
+import Player from "@/components/player";
 
 export default function DefaultLayout({
   children,
@@ -13,6 +14,9 @@ export default function DefaultLayout({
       <main className="container mx-auto max-w-7xl px-6 flex-grow pt-16">
         {children}
       </main>
+      <div className="flex justify-center w-full justify-items-center fixed bottom-0 z-10 p-4">
+        <Player />
+      </div>
       <footer className="w-full flex items-center justify-center py-3">
         <Link
           isExternal

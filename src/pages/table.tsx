@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import DefaultLayout from "@/layouts/default";
 import MusicsTable from "@/components/music-table";
-import { Music } from "@/types/musics";
+import { Music } from "@/types/backend";
 
 export default function TablePage() {
   let musics: Music[] = [];
