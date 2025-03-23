@@ -1,16 +1,15 @@
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 import {Card, CardBody, Button, Slider, Link} from "@heroui/react";
 import {HeartIcon, NextIcon, PauseCircleIcon, PlayCircleIcon, PreviousIcon, RepeatOneIcon, ShuffleIcon} from "@/components/icons";
 import { next, pause, play, previous } from "@/api-wrapper";
 import { useQuery } from "@tanstack/react-query";
 import { PlayerState } from "@/types/backend";
+import { socket } from "@/websocket";
 
 export default function Player() {
 
-  var retry = true;
-
   const { isLoading, data, refetch } = useQuery({
-    queryKey: ['state', retry],
+    queryKey: ['state'],
     queryFn: () =>
       fetch('/api/player/state', {
         method: 'GET',
@@ -21,6 +20,14 @@ export default function Player() {
         res.json(),
       ),
   });
+
+  useMemo(() => {
+    // Listen for messages
+    socket.addEventListener("message", event => {
+      console.log(event)
+      refetch();
+    });
+  }, []);
 
   let state: PlayerState = data;
   let empty = !isLoading && (state.queue.length == 0)
