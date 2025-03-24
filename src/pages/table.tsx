@@ -21,16 +21,8 @@ export default function TablePage() {
   });
 
   if (data) {
-    musics = (data.musics.map((music: {
-      album_title: any;
-      artists: any; title: any; 
-    }) => (
-      {
-        title: music.title,
-        artist: {name: music.artists[0].name},
-        album: {title: music.album_title}
-      }
-    )))
+    console.log(data);
+    musics = data.musics;
   };
 
   return (

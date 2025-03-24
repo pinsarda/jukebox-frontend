@@ -21,7 +21,7 @@ export default function MusicsTable({ musics, isLoading }: MusicsTableProps) {
     return (
       <div className="flex flex-col">
         <p className="text-bold text-sm capitalize hover:underline hover:cursor-pointer w-min whitespace-nowrap">{music.title}</p>
-        <p className="text-bold text-sm capitalize text-default-400 hover:underline hover:cursor-pointer w-min whitespace-nowrap">{music.artist.name}</p>
+        <p className="text-bold text-sm capitalize text-default-400 hover:underline hover:cursor-pointer w-min whitespace-nowrap">{music.artists[0].name}</p>
       </div>
     );
   }, []);
@@ -48,7 +48,7 @@ export default function MusicsTable({ musics, isLoading }: MusicsTableProps) {
                 {renderCell(music)}
               </TableCell>
               <TableCell>
-                <p className="hover:underline hover:cursor-pointer w-min whitespace-nowrap">{music.album.title}</p>
+                <p className="hover:underline hover:cursor-pointer w-min whitespace-nowrap">{music.album_title}</p>
               </TableCell>
               <TableCell>1:02</TableCell>
             </TableRow>
