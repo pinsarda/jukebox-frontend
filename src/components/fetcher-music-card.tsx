@@ -22,7 +22,6 @@ export default function FetcherMusicCard({ fetcher_music, on_added }: FetcherMus
         },
         body:JSON.stringify(fetcher_music)
       }).then((res) => {
-          console.log(on_added);
           if (on_added) {
             on_added();
           }

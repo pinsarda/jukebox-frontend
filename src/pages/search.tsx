@@ -31,8 +31,6 @@ export default function SearchPage() {
   });
 
   if (data) {
-    console.log(data);
-
     musics = data.musics;
     artists = data.artists;
     albums = data.albums;
@@ -87,7 +85,6 @@ function FetcherSearch({ on_added }: FetcherSearchProps) {
   });
 
   if (data) {
-    console.log(data);
     fetcher_musics = data;
   };
 
