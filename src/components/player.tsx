@@ -7,7 +7,8 @@ import { PlayerState } from "@/types/backend";
 import { socket } from "@/websocket";
 
 export default function Player() {
-  const [value, setValue] = React.useState<SliderValue>(25);
+  const [value, setValue] = React.useState<SliderValue>(0);
+  const [isDragging, setIsDragging] = React.useState(false);
 
   const { isLoading, data, refetch } = useQuery({
     queryKey: ['state'],
@@ -35,12 +36,30 @@ export default function Player() {
 
   const handleSeeking = (value: number | number[]) => {
     if (Array.isArray(value)) {
+      setValue(value[0])
       seek(value[0] * 1000);
     } else {
+      setValue(value)
       seek(value * 1000);
     }
   };
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (!isLoading && !isDragging && state.is_playing) {
+        console.log(value)
+        if (Array.isArray(value)) {
+          setValue(value[0] + 1)
+        } else {
+          setValue(value + 1)
+        }
+      }
+    }, 1000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [value, state, isDragging]);
 
   return (
     <Card
@@ -79,7 +98,15 @@ export default function Player() {
                     defaultValue={33}
                     showTooltip={true}
                     size="sm"
-                    onChangeEnd={handleSeeking}
+                    value={value}
+                    onChange={(value) => {
+                      setValue(value);
+                      setIsDragging(true);
+                    }}
+                    onChangeEnd={(value) => {
+                      setIsDragging(false);
+                      handleSeeking(value);
+                    }}
                   />
                   <div className="flex justify-between">
                     <p className="text-small">1:23</p>
