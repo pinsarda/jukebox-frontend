@@ -24,7 +24,6 @@ export default function Player() {
   });
 
   useMemo(() => {
-    // Listen for messages
     socket.addEventListener("message", event => {
       console.log(event)
       refetch();
@@ -47,7 +46,6 @@ export default function Player() {
   useEffect(() => {
     const interval = setInterval(() => {
       if (!isLoading && !isDragging && state.is_playing) {
-        console.log(value)
         if (Array.isArray(value)) {
           setValue(value[0] + 1)
         } else {
