@@ -1,10 +1,18 @@
 import React, { useEffect, useMemo } from "react";
-import {Card, CardBody, Button, Slider, Link, SliderValue} from "@heroui/react";
+import {Card, CardBody, Button, Slider, Link, SliderValue, TooltipProps} from "@heroui/react";
 import {HeartIcon, NextIcon, PauseCircleIcon, PlayCircleIcon, PreviousIcon, RepeatOneIcon, ShuffleIcon} from "@/components/icons";
 import { next, pause, play, previous, seek } from "@/api-wrapper";
 import { useQuery } from "@tanstack/react-query";
 import { PlayerState } from "@/types/backend";
 import { socket } from "@/websocket";
+
+function millisToMinutesAndSeconds(value: number | number[]) {
+  if (Array.isArray(value)) {
+    return new Date(value[0]).toISOString().slice(11, 19);
+  } else {
+    return new Date(value).toISOString().slice(11, 19);
+  }
+}
 
 export default function Player() {
   const [value, setValue] = React.useState<SliderValue>(0);
@@ -36,10 +44,10 @@ export default function Player() {
   const handleSeeking = (value: number | number[]) => {
     if (Array.isArray(value)) {
       setValue(value[0])
-      seek(value[0] * 1000);
+      seek(value[0]);
     } else {
       setValue(value)
-      seek(value * 1000);
+      seek(value);
     }
   };
 
@@ -47,12 +55,12 @@ export default function Player() {
     const interval = setInterval(() => {
       if (!isLoading && !isDragging && state.is_playing) {
         if (Array.isArray(value)) {
-          setValue(value[0] + 1)
+          setValue(value[0] + 100)
         } else {
-          setValue(value + 1)
+          setValue(value + 100)
         }
       }
-    }, 1000);
+    }, 100);
 
     return () => {
       clearInterval(interval);
@@ -94,8 +102,8 @@ export default function Player() {
                     aria-label="Music progress"
                     color="primary"
                     defaultValue={33}
-                    showTooltip={true}
                     size="sm"
+                    maxValue={100000}
                     value={value}
                     onChange={(value) => {
                       setValue(value);
@@ -107,7 +115,7 @@ export default function Player() {
                     }}
                   />
                   <div className="flex justify-between">
-                    <p className="text-small">1:23</p>
+                    <p className="text-small">{millisToMinutesAndSeconds(value)}</p>
                     <p className="text-small text-foreground/50">4:32</p>
                   </div>
 
