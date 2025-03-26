@@ -1,12 +1,13 @@
 import React, { useEffect, useMemo } from "react";
-import {Card, CardBody, Button, Slider, Link} from "@heroui/react";
+import {Card, CardBody, Button, Slider, Link, SliderValue} from "@heroui/react";
 import {HeartIcon, NextIcon, PauseCircleIcon, PlayCircleIcon, PreviousIcon, RepeatOneIcon, ShuffleIcon} from "@/components/icons";
-import { next, pause, play, previous } from "@/api-wrapper";
+import { next, pause, play, previous, seek } from "@/api-wrapper";
 import { useQuery } from "@tanstack/react-query";
 import { PlayerState } from "@/types/backend";
 import { socket } from "@/websocket";
 
 export default function Player() {
+  const [value, setValue] = React.useState<SliderValue>(25);
 
   const { isLoading, data, refetch } = useQuery({
     queryKey: ['state'],
@@ -31,6 +32,15 @@ export default function Player() {
 
   let state: PlayerState = data;
   let empty = !isLoading && (state.queue.length == 0)
+
+  const handleSeeking = (value: number | number[]) => {
+    if (Array.isArray(value)) {
+      seek(value[0] * 1000);
+    } else {
+      seek(value * 1000);
+    }
+  };
+
 
   return (
     <Card
@@ -65,13 +75,11 @@ export default function Player() {
 
                   <Slider
                     aria-label="Music progress"
-                    classNames={{
-                      track: "bg-default-500/30",
-                      thumb: "w-2 h-2 after:w-2 after:h-2 after:bg-foreground",
-                    }}
-                    color="foreground"
+                    color="primary"
                     defaultValue={33}
+                    showTooltip={true}
                     size="sm"
+                    onChangeEnd={handleSeeking}
                   />
                   <div className="flex justify-between">
                     <p className="text-small">1:23</p>

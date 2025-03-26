@@ -73,3 +73,14 @@ export async function previous() {
   });
   return res
 }
+
+export async function seek(pos: number) {
+  const res = await fetch("/api/player/seek", {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body:JSON.stringify({ pos: pos })
+  });
+  return res
+}

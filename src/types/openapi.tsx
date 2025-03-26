@@ -225,6 +225,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/player/socket": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["socket"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/player/state": {
         parameters: {
             query?: never;
@@ -732,6 +748,16 @@ export interface operations {
                 content?: never;
             };
         };
+    };
+    socket: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: never;
     };
     state: {
         parameters: {
