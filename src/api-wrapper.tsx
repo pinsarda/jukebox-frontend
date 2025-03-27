@@ -84,3 +84,25 @@ export async function seek(pos: number) {
   });
   return res
 }
+
+export async function add_favorite_music(id: number) {
+  const res = await fetch("/api/music/add_favorite", {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body:JSON.stringify({ id: id })
+  });
+  return res
+}
+
+export async function remove_favorite_music(id: number) {
+  const res = await fetch("/api/music/remove_favorite", {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body:JSON.stringify({ id: id })
+  });
+  return res
+}

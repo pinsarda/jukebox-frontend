@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from "react";
 import {Card, CardBody, Button, Slider, Link, SliderValue, TooltipProps} from "@heroui/react";
 import {HeartIcon, NextIcon, PauseCircleIcon, PlayCircleIcon, PreviousIcon, RepeatOneIcon, ShuffleIcon} from "@/components/icons";
-import { next, pause, play, previous, seek } from "@/api-wrapper";
+import { add_favorite_music, next, pause, play, previous, remove_favorite_music, seek } from "@/api-wrapper";
 import { useQuery } from "@tanstack/react-query";
 import { PlayerState } from "@/types/backend";
 import { socket } from "@/websocket";
@@ -189,6 +189,19 @@ export default function Player() {
                   className="text-default-900/60 data-[hover]:bg-foreground/10"
                   radius="full"
                   variant="light"
+                  onPress={async () => {
+                    if (!empty) {
+                      if (state.queue[state.queue_index].is_favorited) {
+                        remove_favorite_music(state.queue[state.queue_index].id).then(() => {
+                          refetch();
+                        });
+                      } else {
+                        add_favorite_music(state.queue[state.queue_index].id).then(() => {
+                          refetch();
+                        });
+                      }
+                    }
+                  }}
                 >
                   <HeartIcon
                     className={(!empty ? state.queue[state.queue_index].is_favorited : false) ? "[&>path]:stroke-transparent" : ""}
