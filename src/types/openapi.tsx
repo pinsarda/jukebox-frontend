@@ -55,6 +55,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/artist/get_albums": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Add an artist to the database */
+        get: operations["get_albums"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/artist/metadata": {
         parameters: {
             query?: never;
@@ -123,6 +140,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/music/add_favorite": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Add a music to the database */
+        post: operations["add_favorite_music"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/music/metadata": {
         parameters: {
             query?: never;
@@ -134,6 +168,23 @@ export interface paths {
         get: operations["metadata"];
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/music/remove_favorite": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Add a music to the database */
+        post: operations["remove_favorite_music"];
         delete?: never;
         options?: never;
         head?: never;
@@ -219,6 +270,23 @@ export interface paths {
         put?: never;
         /** Skip to previous music in queue */
         post: operations["previous"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/player/seek": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Seek to */
+        post: operations["seek"];
         delete?: never;
         options?: never;
         head?: never;
@@ -405,6 +473,8 @@ export interface components {
         FetcherMusic: {
             album_title: string;
             artists: components["schemas"]["FetcherArtist"][];
+            /** Format: int32 */
+            duration: number;
             fetcher_id?: string | null;
             thumb_url?: string | null;
             title: string;
@@ -437,6 +507,8 @@ export interface components {
             apple_music_id?: string | null;
             artists_ids: number[];
             deezer_id?: string | null;
+            /** Format: int32 */
+            duration: number;
             spotify_id?: string | null;
             title: string;
             youtube_id?: string | null;
@@ -473,6 +545,8 @@ export interface components {
             artists: components["schemas"]["RichArtist"][];
             deezer_id?: string | null;
             /** Format: int32 */
+            duration: number;
+            /** Format: int32 */
             id: number;
             is_favorited: boolean;
             spotify_id?: string | null;
@@ -480,6 +554,8 @@ export interface components {
             youtube_id?: string | null;
         };
         RichPlayerState: {
+            /** Format: int32 */
+            current_pos: number;
             is_playing: boolean;
             queue: components["schemas"]["RichMusic"][];
             /** Format: int32 */
@@ -492,6 +568,10 @@ export interface components {
             albums: components["schemas"]["RichAlbum"][];
             artists: components["schemas"]["RichArtist"][];
             musics: components["schemas"]["RichMusic"][];
+        };
+        SeekRequest: {
+            /** Format: int64 */
+            pos: number;
         };
     };
     responses: never;
@@ -538,6 +618,16 @@ export interface operations {
                 "application/json": components["schemas"]["NewArtist"];
             };
         };
+        responses: never;
+    };
+    get_albums: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
         responses: never;
     };
     metadata: {
@@ -620,6 +710,20 @@ export interface operations {
         };
         responses: never;
     };
+    add_favorite_music: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Id"];
+            };
+        };
+        responses: never;
+    };
     metadata: {
         parameters: {
             query?: never;
@@ -628,6 +732,20 @@ export interface operations {
             cookie?: never;
         };
         requestBody?: never;
+        responses: never;
+    };
+    remove_favorite_music: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["Id"];
+            };
+        };
         responses: never;
     };
     add_to_queue: {
@@ -740,6 +858,35 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    seek: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SeekRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SeekRequest"];
+                };
             };
             403: {
                 headers: {

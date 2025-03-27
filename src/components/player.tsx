@@ -5,14 +5,7 @@ import { add_favorite_music, next, pause, play, previous, remove_favorite_music,
 import { useQuery } from "@tanstack/react-query";
 import { PlayerState } from "@/types/backend";
 import { socket } from "@/websocket";
-
-function millisToMinutesAndSeconds(value: number | number[]) {
-  if (Array.isArray(value)) {
-    return new Date(value[0]).toISOString().slice(11, 19);
-  } else {
-    return new Date(value).toISOString().slice(11, 19);
-  }
-}
+import prettyMilliseconds from 'pretty-ms';
 
 export default function Player() {
   const [value, setValue] = React.useState<SliderValue>(0);
@@ -41,23 +34,29 @@ export default function Player() {
   let state: PlayerState = data;
   let empty = !isLoading && (state.queue.length == 0)
 
-  const handleSeeking = (value: number | number[]) => {
-    if (Array.isArray(value)) {
-      setValue(value[0])
-      seek(value[0]);
-    } else {
-      setValue(value)
-      seek(value);
+  useEffect(() => {
+    if (state) {
+      console.log(state.current_pos);
+      setValue(state.current_pos);
     }
-  };
+  }, [state])
+
+  const sliderValueToNumber = (value: number | number[]) => {
+    if (Array.isArray(value)) {
+      return value[0]
+    } else {
+      return value
+    }
+  }
 
   useEffect(() => {
     const interval = setInterval(() => {
       if (!isLoading && !isDragging && state.is_playing) {
-        if (Array.isArray(value)) {
-          setValue(value[0] + 100)
+        let tmp = sliderValueToNumber(value);
+        if (tmp < state.queue[state.queue_index].duration) {
+          setValue(tmp + 100);
         } else {
-          setValue(value + 100)
+          refetch();
         }
       }
     }, 100);
@@ -66,6 +65,12 @@ export default function Player() {
       clearInterval(interval);
     };
   }, [value, state, isDragging]);
+
+  // useEffect(() => {
+  //   if (!empty) {
+  //     setValue(state.current_pos)
+  //   }
+  // }, [state])
 
   return (
     <Card
@@ -103,7 +108,10 @@ export default function Player() {
                     color="primary"
                     defaultValue={33}
                     size="sm"
-                    maxValue={100000}
+                    maxValue={
+                      !empty ? state.queue[state.queue_index].duration
+                      : 100
+                    }
                     value={value}
                     onChange={(value) => {
                       setValue(value);
@@ -111,12 +119,18 @@ export default function Player() {
                     }}
                     onChangeEnd={(value) => {
                       setIsDragging(false);
-                      handleSeeking(value);
+                      setValue(sliderValueToNumber(value))
+                      seek(sliderValueToNumber(value))
                     }}
                   />
                   <div className="flex justify-between">
-                    <p className="text-small">{millisToMinutesAndSeconds(value)}</p>
-                    <p className="text-small text-foreground/50">4:32</p>
+                    <p className="text-small">{prettyMilliseconds(sliderValueToNumber(value), {colonNotation: true})}</p>
+                    <p className="text-small text-foreground/50">{
+                      prettyMilliseconds(sliderValueToNumber(
+                        !empty ? state.queue[state.queue_index].duration 
+                      : 100
+                      ), {colonNotation: true})
+                    }</p>
                   </div>
 
                   <div className="flex w-full items-center justify-center">

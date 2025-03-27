@@ -2,6 +2,7 @@ import { add_to_queue } from "@/api-wrapper";
 import { Music } from "@/types/backend";
 import {Card, Image, Link, Spinner} from "@heroui/react";
 import { useQuery } from "@tanstack/react-query";
+import prettyMilliseconds from 'pretty-ms';
 
 interface MusicCardProps {
   music: Music,
@@ -48,7 +49,7 @@ export default function MusicCard({ music }: MusicCardProps) {
         <Spinner></Spinner>
       }
       <Link className="ml-auto text-medium" underline="hover" color="foreground" href={"/album/" + music.album_id }>{ music.album_title }</Link>
-      <h4 className="text-medium">1:00</h4>
+      <h4 className="text-medium">{ prettyMilliseconds(music.duration, {colonNotation: true}) }</h4>
     </Card>
   );
 }

@@ -1,6 +1,7 @@
 import { FetcherMusic } from "@/types/backend";
 import {Card, Image, Link, Spinner} from "@heroui/react";
 import { useQuery } from "@tanstack/react-query";
+import prettyMilliseconds from "pretty-ms";
 
 interface FetcherMusicCardProps {
   fetcher_music: FetcherMusic,
@@ -60,7 +61,7 @@ export default function FetcherMusicCard({ fetcher_music, on_added }: FetcherMus
         <Spinner></Spinner>
       }
       <Link className="ml-auto text-medium" underline="hover" color="foreground">{ fetcher_music.album_title }</Link>
-      <h4 className="text-medium">1:00</h4>
+      <h4 className="text-medium">{ prettyMilliseconds(fetcher_music.duration, {colonNotation: true}) }</h4>
     </Card>
   );
 }
