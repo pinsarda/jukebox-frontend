@@ -4,8 +4,9 @@ import ArtistCard from "@/components/artist-card";
 import { Music, Artist, Album, FetcherMusic } from "@/types/backend";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
-import { Spinner } from "@heroui/react";
+import { ScrollShadow, Spinner } from "@heroui/react";
 import FetcherMusicCard from "@/components/fetcher-music-card";
+import AlbumCard from "@/components/album-card";
 
 export default function SearchPage() {
 
@@ -39,7 +40,7 @@ export default function SearchPage() {
   return (
     <DefaultLayout>
       <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10 w-full">
-        <div className="w-full justify-items-center flex">
+        <div className="w-full justify-items-center flex-column">
             {/* {artists.length != 0 &&
               <ArtistCard artist={ artists[0] } />
             } */}
@@ -48,6 +49,11 @@ export default function SearchPage() {
                   <MusicCard music={music} />
                 ))}
             </div>
+            <ScrollShadow className="flex flex-row m-2 p-4 gap-2 overflow-scroll" orientation="horizontal">
+              {albums.map((album) => (
+                <AlbumCard album={album} />
+              ))}
+            </ScrollShadow>
         </div>
         <div>
               <h1 className="text-center text-large font-bold mb-5">Récupération depuis Youtube</h1>
