@@ -9,7 +9,7 @@ export default defineConfig({
     proxy: {
     // Target is your backend API
       '/api': {
-          target: 'https://jukebox.dev.hackademint.org', 
+          target: 'http://localhost:8080', 
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/api/, ''),
           

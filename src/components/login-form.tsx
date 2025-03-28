@@ -1,7 +1,8 @@
 import React from "react";
-import {Form, Input, Button, Divider} from "@heroui/react";
+import { Form, Input, Button, Divider } from "@heroui/react";
 import { ValidationErrors } from "@react-types/shared";
 import { useNavigate } from "react-router-dom";
+
 import { login } from "@/api-wrapper";
 
 export default function LoginForm() {
@@ -10,27 +11,29 @@ export default function LoginForm() {
   const [errors, setErrors] = React.useState<ValidationErrors>({});
   const navigate = useNavigate();
 
-  const onSubmit = (e: { preventDefault: () => void; currentTarget: HTMLFormElement | undefined; }) => {
+  const onSubmit = (e: {
+    preventDefault: () => void;
+    currentTarget: HTMLFormElement | undefined;
+  }) => {
     e.preventDefault();
     setLoading(true);
     const formData = new FormData(e.currentTarget);
     const user_data = {
-        username: formData.get('username') as string,
-        password: formData.get('password') as string
+      username: formData.get("username") as string,
+      password: formData.get("password") as string,
     };
 
     setErrors({});
 
     login(user_data).then((result) => {
       if (!result.ok) {
-        setErrors({name: "Nom d'utilisateur ou mot de passe incorrect"})
+        setErrors({ name: "Nom d'utilisateur ou mot de passe incorrect" });
         setLoading(false);
       } else {
-        localStorage.setItem('is_authenticated', 'true');
-        navigate('/');
+        localStorage.setItem("is_authenticated", "true");
+        navigate("/");
       }
     });
-    
   };
 
   return (
@@ -41,11 +44,7 @@ export default function LoginForm() {
       onSubmit={onSubmit}
     >
       <div className="flex flex-col gap-4 w-full">
-        <Input
-          isRequired
-          label="Nom d'utilisateur"
-          name="username"
-        />
+        <Input isRequired label="Nom d'utilisateur" name="username" />
 
         <Input
           isRequired
@@ -56,10 +55,17 @@ export default function LoginForm() {
           onValueChange={setPassword}
         />
 
-        {errors.name && <span className="text-danger text-small">{errors.name}</span>}
+        {errors.name && (
+          <span className="text-danger text-small">{errors.name}</span>
+        )}
 
         <div className="flex gap-4 ">
-          <Button isLoading={loading} className="w-full h-14 text-medium" color="primary" type="submit">
+          <Button
+            className="w-full h-14 text-medium"
+            color="primary"
+            isLoading={loading}
+            type="submit"
+          >
             Se connecter
           </Button>
         </div>
@@ -67,13 +73,18 @@ export default function LoginForm() {
         <Divider className="my-4" />
 
         <div className="flex gap-4">
-          <Button className="w-full h-14 text-medium" color="primary" variant="bordered" onPress={() => {navigate("/signup")}}>
-            Créer un compte 
+          <Button
+            className="w-full h-14 text-medium"
+            color="primary"
+            variant="bordered"
+            onPress={() => {
+              navigate("/signup");
+            }}
+          >
+            Créer un compte
           </Button>
         </div>
       </div>
-
     </Form>
   );
 }
-

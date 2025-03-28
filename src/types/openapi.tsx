@@ -29,7 +29,7 @@ export interface paths {
             cookie?: never;
         };
         /** Get an album metadata */
-        get: operations["metadata"];
+        get: operations["album_metadata"];
         put?: never;
         post?: never;
         delete?: never;
@@ -80,7 +80,7 @@ export interface paths {
             cookie?: never;
         };
         /** Get an artist metadata */
-        get: operations["metadata"];
+        get: operations["artist_metadata"];
         put?: never;
         post?: never;
         delete?: never;
@@ -165,7 +165,7 @@ export interface paths {
             cookie?: never;
         };
         /** Get music metadata */
-        get: operations["metadata"];
+        get: operations["music_metadata"];
         put?: never;
         post?: never;
         delete?: never;
@@ -596,7 +596,7 @@ export interface operations {
         };
         responses: never;
     };
-    metadata: {
+    album_metadata: {
         parameters: {
             query?: never;
             header?: never;
@@ -630,7 +630,7 @@ export interface operations {
         requestBody?: never;
         responses: never;
     };
-    metadata: {
+    artist_metadata: {
         parameters: {
             query?: never;
             header?: never;
@@ -724,7 +724,7 @@ export interface operations {
         };
         responses: never;
     };
-    metadata: {
+    music_metadata: {
         parameters: {
             query?: never;
             header?: never;

@@ -24,7 +24,6 @@ import { Logo } from "@/components/icons";
 import { SearchBar } from "@/components/search-bar";
 
 export const Navbar = () => {
-  
   return (
     <HeroUINavbar maxWidth="xl" position="sticky">
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
@@ -44,7 +43,7 @@ export const Navbar = () => {
               <Link
                 className={clsx(
                   linkStyles({ color: "foreground" }),
-                  "data-[active=true]:text-primary data-[active=true]:font-medium"
+                  "data-[active=true]:text-primary data-[active=true]:font-medium",
                 )}
                 color="foreground"
                 href={item.href}
@@ -72,7 +71,9 @@ export const Navbar = () => {
           </Link>
           <ThemeSwitch />
         </NavbarItem>
-        <NavbarItem className="hidden lg:flex"><SearchBar/></NavbarItem>
+        <NavbarItem className="hidden lg:flex">
+          <SearchBar />
+        </NavbarItem>
         <NavbarItem className="hidden md:flex">
           <Button
             isExternal

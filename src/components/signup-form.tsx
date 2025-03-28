@@ -1,7 +1,8 @@
 import React from "react";
-import {Form, Input, Button} from "@heroui/react";
+import { Form, Input, Button } from "@heroui/react";
 import { ValidationErrors } from "@react-types/shared";
 import { useNavigate } from "react-router-dom";
+
 import { login, signup } from "@/api-wrapper";
 
 export default function SignupForm() {
@@ -10,24 +11,27 @@ export default function SignupForm() {
   const [errors, setErrors] = React.useState<ValidationErrors>({});
   const navigate = useNavigate();
 
-  const onSubmit = (e: { preventDefault: () => void; currentTarget: HTMLFormElement | undefined; }) => {
+  const onSubmit = (e: {
+    preventDefault: () => void;
+    currentTarget: HTMLFormElement | undefined;
+  }) => {
     e.preventDefault();
     setLoading(true);
     const formData = new FormData(e.currentTarget);
     const user_data = {
-        username: formData.get('username') as string,
-        password: formData.get('password') as string
+      username: formData.get("username") as string,
+      password: formData.get("password") as string,
     };
 
     setErrors({});
 
     signup(user_data).then((result) => {
       if (!result.ok) {
-        setErrors({name: "Nom d'utilisateur indisponible"})
+        setErrors({ name: "Nom d'utilisateur indisponible" });
         setLoading(false);
       } else {
         login(user_data);
-        navigate('/');
+        navigate("/");
       }
     });
   };
@@ -40,11 +44,7 @@ export default function SignupForm() {
       onSubmit={onSubmit}
     >
       <div className="flex flex-col gap-4 w-full">
-        <Input
-          isRequired
-          label="Nom d'utilisateur"
-          name="username"
-        />
+        <Input isRequired label="Nom d'utilisateur" name="username" />
 
         <Input
           isRequired
@@ -55,10 +55,17 @@ export default function SignupForm() {
           onValueChange={setPassword}
         />
 
-        {errors.name && <span className="text-danger text-small">{errors.name}</span>}
+        {errors.name && (
+          <span className="text-danger text-small">{errors.name}</span>
+        )}
 
         <div className="flex gap-4 ">
-          <Button isLoading={loading} className="w-full h-14 text-medium" color="primary" type="submit">
+          <Button
+            className="w-full h-14 text-medium"
+            color="primary"
+            isLoading={loading}
+            type="submit"
+          >
             Créer un compte
           </Button>
         </div>
