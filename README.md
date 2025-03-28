@@ -45,6 +45,14 @@ public-hoist-pattern[]=*@heroui/*
 
 After modifying the `.npmrc` file, you need to run `pnpm install` again to ensure that the dependencies are installed correctly.
 
+## Docker Image
+
+```bash
+docker build . -t jukebox-frontend
+```
+
+(See [jukebox backend](https://github.com/pinsarda/jukebox-backend))
+
 ## License
 
 Licensed under the [MIT license](https://github.com/frontio-ai/vite-template/blob/main/LICENSE).
