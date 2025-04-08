@@ -18,9 +18,12 @@ import {
   PreviousIcon,
   RepeatOneIcon,
   ShuffleIcon,
+  VolumeIcon,
+  VolumeMutedIcon,
 } from "@/components/icons";
 import {
   add_favorite_music,
+  set_volume,
   next,
   pause,
   play,
@@ -32,7 +35,8 @@ import { PlayerState } from "@/types/backend";
 import { socket } from "@/websocket";
 
 export default function Player() {
-  const [value, setValue] = React.useState<SliderValue>(0);
+  const [progressValue, setProgressValue] = React.useState<SliderValue>(0);
+  const [volumeValue, setVolumeValue] = React.useState<SliderValue>(0);
   const [isDragging, setIsDragging] = React.useState(false);
 
   const { isLoading, data, refetch } = useQuery({
@@ -59,7 +63,8 @@ export default function Player() {
   useEffect(() => {
     if (state) {
       console.log(state.current_pos);
-      setValue(state.current_pos);
+      setProgressValue(state.current_pos);
+      setVolumeValue(state.volume)
     }
   }, [state]);
 
@@ -74,10 +79,10 @@ export default function Player() {
   useEffect(() => {
     const interval = setInterval(() => {
       if (!isLoading && !isDragging && state.is_playing) {
-        let tmp = sliderValueToNumber(value);
+        let tmp = sliderValueToNumber(progressValue);
 
         if (tmp < state.queue[state.queue_index].duration) {
-          setValue(tmp + 100);
+          setProgressValue(tmp + 100);
         } else {
           refetch();
         }
@@ -87,7 +92,7 @@ export default function Player() {
     return () => {
       clearInterval(interval);
     };
-  }, [value, state, isDragging]);
+  }, [progressValue, state, isDragging]);
 
   return (
     <Card
@@ -147,20 +152,20 @@ export default function Player() {
                         !empty ? state.queue[state.queue_index].duration : 1
                       }
                       size="sm"
-                      value={value}
+                      value={progressValue}
                       onChange={(value) => {
-                        setValue(value);
+                        setProgressValue(value);
                         setIsDragging(true);
                       }}
                       onChangeEnd={(value) => {
                         setIsDragging(false);
-                        setValue(sliderValueToNumber(value));
+                        setProgressValue(sliderValueToNumber(value));
                         seek(sliderValueToNumber(value));
                       }}
                     />
                     <div className="flex justify-between">
                       <p className="text-small">
-                        {prettyMilliseconds(sliderValueToNumber(value), {
+                        {prettyMilliseconds(sliderValueToNumber(progressValue), {
                           colonNotation: true,
                         })}
                       </p>
@@ -245,51 +250,94 @@ export default function Player() {
                     </div>
                   </div>
                 </div>
-                <div className="w-1/4 flex justify-end">
-                  <Button
-                    isIconOnly // vérifier que ça ne bloque pas l'utilisabilité du "play button"
-                    className="text-default-900/60 data-[hover]:bg-foreground/10"
-                    radius="full"
-                    variant="light"
-                    onPress={async () => {
-                      if (!empty) {
-                        if (state.queue[state.queue_index].is_favorited) {
-                          remove_favorite_music(
-                            state.queue[state.queue_index].id,
-                          ).then(() => {
-                            refetch();
-                          });
-                        } else {
-                          add_favorite_music(
-                            state.queue[state.queue_index].id,
-                          ).then(() => {
-                            refetch();
-                          });
+                <div className="w-1/4 h-full">
+                  <div className="w-full flex justify-end">
+                    <Button
+                      isIconOnly // vérifier que ça ne bloque pas l'utilisabilité du "play button"
+                      className="text-default-900/60 data-[hover]:bg-foreground/10"
+                      radius="full"
+                      variant="light"
+                      onPress={async () => {
+                        if (!empty) {
+                          if (state.queue[state.queue_index].is_favorited) {
+                            remove_favorite_music(
+                              state.queue[state.queue_index].id,
+                            ).then(() => {
+                              refetch();
+                            });
+                          } else {
+                            add_favorite_music(
+                              state.queue[state.queue_index].id,
+                            ).then(() => {
+                              refetch();
+                            });
+                          }
                         }
+                      }}
+                    >
+                      <HeartIcon
+                        className={
+                          (
+                            !empty
+                              ? state.queue[state.queue_index].is_favorited
+                              : false
+                          )
+                            ? "[&>path]:stroke-transparent"
+                            : ""
+                        }
+                        fill={
+                          (
+                            !empty
+                              ? state.queue[state.queue_index].is_favorited
+                              : false
+                          )
+                            ? "currentColor"
+                            : "none"
+                        }
+                      />
+                    </Button>
+                  </div>
+
+                  <div className="flex justify-end items-center gap-2 w-full self-center mt-4">
+                    <Button
+                      isIconOnly
+                      className="text-default-900/60 data-[hover]:bg-foreground/10"
+                      radius="full"
+                      variant="light"
+                      onPress={() => {
+                        if (volumeValue != 0) {
+                          setVolumeValue(0)
+                          set_volume(0)
+                        } else {
+                          setVolumeValue(0.5)
+                          set_volume(0.5)
+                        }
+                      }}
+                    >
+                      {volumeValue == 0 ?
+                        <VolumeMutedIcon size={32} /> :
+                        <VolumeIcon size={32} />
                       }
-                    }}
-                  >
-                    <HeartIcon
-                      className={
-                        (
-                          !empty
-                            ? state.queue[state.queue_index].is_favorited
-                            : false
-                        )
-                          ? "[&>path]:stroke-transparent"
-                          : ""
-                      }
-                      fill={
-                        (
-                          !empty
-                            ? state.queue[state.queue_index].is_favorited
-                            : false
-                        )
-                          ? "currentColor"
-                          : "none"
-                      }
+                    </Button>
+                    <Slider
+                      className="w-32 mr-6"
+                      aria-label="Music volume"
+                      color="primary"
+                      defaultValue={0}
+                      maxValue={1}
+                      step={0.01}
+                      size="sm"
+                      value={volumeValue}
+                      onChange={(value) => {
+                        setVolumeValue(value)
+                      }}
+                      onChangeEnd={(value) => {
+                        setVolumeValue(value)
+                        set_volume(sliderValueToNumber(value));
+                      }}
                     />
-                  </Button>
+                  </div>
+
                 </div>
               </div>
             )}

@@ -293,6 +293,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/player/set_volume": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Set volume */
+        post: operations["set_volume"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/player/socket": {
         parameters: {
             query?: never;
@@ -560,6 +577,8 @@ export interface components {
             queue: components["schemas"]["RichMusic"][];
             /** Format: int32 */
             queue_index: number;
+            /** Format: float */
+            volume: number;
         };
         SearchQuery: {
             query: string;
@@ -572,6 +591,10 @@ export interface components {
         SeekRequest: {
             /** Format: int64 */
             pos: number;
+        };
+        VolumeChangeRequest: {
+            /** Format: float */
+            volume: number;
         };
     };
     responses: never;
@@ -886,6 +909,35 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["SeekRequest"];
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    set_volume: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["VolumeChangeRequest"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VolumeChangeRequest"];
                 };
             };
             403: {
