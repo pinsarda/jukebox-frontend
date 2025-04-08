@@ -144,7 +144,7 @@ export default function Player() {
                       color="primary"
                       defaultValue={33}
                       maxValue={
-                        !empty ? state.queue[state.queue_index].duration : 100
+                        !empty ? state.queue[state.queue_index].duration : 1
                       }
                       size="sm"
                       value={value}
@@ -169,7 +169,7 @@ export default function Player() {
                           sliderValueToNumber(
                             !empty
                               ? state.queue[state.queue_index].duration
-                              : 100,
+                              : 1,
                           ),
                           { colonNotation: true },
                         )}
