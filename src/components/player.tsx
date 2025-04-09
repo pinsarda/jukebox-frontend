@@ -34,30 +34,22 @@ import {
 import { PlayerState } from "@/types/backend";
 import { socket } from "@/websocket";
 
-export default function Player() {
+interface PlayerProps {
+  isLoading: boolean;
+  state: PlayerState;
+  refetch: any;
+}
+
+export default function Player({
+    isLoading,
+    state,
+    refetch
+  }: PlayerProps) {
   const [progressValue, setProgressValue] = React.useState<SliderValue>(0);
   const [volumeValue, setVolumeValue] = React.useState<SliderValue>(0);
   const [isDragging, setIsDragging] = React.useState(false);
 
-  const { isLoading, data, refetch } = useQuery({
-    queryKey: ["state"],
-    queryFn: () =>
-      fetch("/api/player/state", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }).then((res) => res.json()),
-  });
-
-  useMemo(() => {
-    socket.addEventListener("message", (event) => {
-      console.log(event);
-      refetch();
-    });
-  }, []);
-
-  let state: PlayerState = data;
+  // let state: PlayerState = data;
   let empty = !isLoading && state.queue.length == 0;
 
   useEffect(() => {
