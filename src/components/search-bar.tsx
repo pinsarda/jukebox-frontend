@@ -24,7 +24,7 @@ export const SearchBar = () => {
   };
 
   return (
-    <div className="flex flex-row gap-2">
+    <div className="flex flex-row gap-2 w-4/5">
       <Input
         aria-label="Search"
         className="w-full"
@@ -32,11 +32,6 @@ export const SearchBar = () => {
           inputWrapper: "bg-default-100",
           input: "text-sm",
         }}
-        endContent={
-          <Kbd className="hidden lg:inline-block" keys={["command"]}>
-            K
-          </Kbd>
-        }
         labelPlacement="outside"
         placeholder="Search..."
         startContent={
