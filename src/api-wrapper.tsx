@@ -1,6 +1,41 @@
 import { Id } from "./types/backend";
 import { UserData } from "./types/user";
 
+export type Provider = {
+  name: string,
+  id: string,
+}
+
+// In the long run, the server should be giving the available providers
+// This code should be replaced
+export const ytmusic_provider: Provider = {
+  name: "Youtube Music",
+  id: "ytmusic"
+}
+
+export const youtube_provider: Provider = {
+  name: "Youtube",
+  id: "youtube"
+}
+
+export const lastfm_provider: Provider = {
+  name: "Last Fm",
+  id: "lastfm"
+}
+
+export const getProvider = (provider_id: string) => {
+  if (provider_id == ytmusic_provider.id) {
+    return ytmusic_provider
+  } else if (provider_id == youtube_provider.id) {
+    return youtube_provider
+  } else if (provider_id == lastfm_provider.id) {
+    return lastfm_provider
+  } else {
+    console.log("Warning : unknown provider, defaulting to youtube music")
+    return ytmusic_provider
+  }
+}
+
 export async function login(user_data: UserData) {
   const res = await fetch("/api/user/login", {
     method: "POST",

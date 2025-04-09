@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import { ScrollShadow, Spinner } from "@heroui/react";
 
 import DefaultLayout from "@/layouts/default";
@@ -7,9 +7,11 @@ import MusicCard from "@/components/music-card";
 import { Music, Artist, Album, FetcherMusic } from "@/types/backend";
 import FetcherMusicCard from "@/components/fetcher-music-card";
 import AlbumCard from "@/components/album-card";
+import { getProvider } from "@/api-wrapper";
 
 export default function SearchPage() {
-  const { query } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const query = searchParams.get("query") ?? "";
 
   let musics: Music[] = [];
   let artists: Artist[] = [];
@@ -21,7 +23,7 @@ export default function SearchPage() {
       fetch(
         "/api/search?" +
           new URLSearchParams({
-            query: query ?? "",
+            query: query,
           }).toString(),
         {
           method: "GET",
@@ -75,7 +77,9 @@ interface FetcherSearchProps {
 }
 
 function FetcherSearch({ on_added }: FetcherSearchProps) {
-  const { query } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const query = searchParams.get("query") ?? "";
+  const provider_id = searchParams.get("provider") ?? "ytmusic";
 
   let fetcher_musics: FetcherMusic[] = [];
 
@@ -83,9 +87,9 @@ function FetcherSearch({ on_added }: FetcherSearchProps) {
     queryKey: ["fetcher", query],
     queryFn: () =>
       fetch(
-        "/api/fetcher/ytmusic/search?" +
+        "/api/fetcher/" + provider_id + "/search?" +
           new URLSearchParams({
-            query: query ?? "",
+            query: query,
           }).toString(),
         {
           method: "GET",
@@ -115,6 +119,7 @@ function FetcherSearch({ on_added }: FetcherSearchProps) {
           key={fetcher_music.title}
           fetcher_music={fetcher_music}
           on_added={on_added}
+          provider={getProvider(provider_id)}
         />
       ))}
     </div>

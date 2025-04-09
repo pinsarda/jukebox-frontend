@@ -3,14 +3,17 @@ import { useQuery } from "@tanstack/react-query";
 import prettyMilliseconds from "pretty-ms";
 
 import { FetcherMusic } from "@/types/backend";
+import { Provider } from "@/api-wrapper";
 
 interface FetcherMusicCardProps {
   fetcher_music: FetcherMusic;
+  provider: Provider;
   on_added?: Function;
 }
 
 export default function FetcherMusicCard({
   fetcher_music,
+  provider,
   on_added,
 }: FetcherMusicCardProps) {
   const { isLoading, data, isError, refetch } = useQuery({
@@ -23,7 +26,7 @@ export default function FetcherMusicCard({
     refetchInterval: false,
     retry: false,
     queryFn: () =>
-      fetch("/api/fetcher/ytmusic/add", {
+      fetch("/api/fetcher/" + provider.id + "/add", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
