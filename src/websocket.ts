@@ -1,4 +1,4 @@
-export const socket = new WebSocket("ws://localhost:8080/player/socket");
+export const socket = new WebSocket("/api/player/socket");
 
 // Connection opened
 socket.addEventListener("open", (event) => {
