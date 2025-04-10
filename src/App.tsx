@@ -12,6 +12,7 @@ import PricingPage from "@/pages/pricing";
 import BlogPage from "@/pages/blog";
 import AboutPage from "@/pages/about";
 import ArtistPage from "./pages/artist";
+import FavoritesPage from "./pages/favorites";
 
 const queryClient = new QueryClient();
 
@@ -38,7 +39,7 @@ function App() {
           <Route element={<SearchPage />} path="/search" />
           <Route element={<AlbumPage />} path="/album/:id/" />
           <Route element={<ArtistPage />} path="/artist/:id/" />
-          <Route element={<TablePage />} path="/" />
+          <Route element={<FavoritesPage />} path="/" />
         </Route>
         <Route element={<LoginPage />} path="/login" />
         <Route element={<SignupPage />} path="/signup" />
