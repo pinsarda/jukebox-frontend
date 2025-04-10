@@ -22,19 +22,27 @@ import {
 } from "@/components/icons";
 import { Logo } from "@/components/icons";
 import { SearchBar } from "@/components/search-bar";
+import { Image } from "@heroui/react";
+import React from "react";
 
 export const Navbar = () => {
+  const [hasCustomLogo, setHasCustomLogo] = React.useState(true); 
+
   return (
     <HeroUINavbar maxWidth="full" position="sticky">
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
-        <NavbarBrand className="gap-3 max-w-fit">
+        <NavbarBrand className="gap-3 w-fit">
           <Link
-            className="flex justify-start items-center gap-1"
+            className="flex justify-start items-center gap-2 w-14 mt-2"
             color="foreground"
             href="/"
           >
-            <Logo />
-            <p className="font-bold text-inherit">ACME</p>
+            {!hasCustomLogo ? <Logo />
+            : <img src="/api/static/logo.svg" onError={() => {
+                setHasCustomLogo(false);
+              }}/>
+            }
+            {/* <p className="font-bold text-inherit">HackademINT</p> */}
           </Link>
         </NavbarBrand>
       </NavbarContent>
