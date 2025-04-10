@@ -8,6 +8,7 @@ import { Music, Artist, Album, FetcherMusic } from "@/types/backend";
 import FetcherMusicCard from "@/components/fetcher-music-card";
 import AlbumCard from "@/components/album-card";
 import { getProvider } from "@/api-wrapper";
+import ArtistCard from "@/components/artist-card";
 
 export default function SearchPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -58,6 +59,14 @@ export default function SearchPage() {
           >
             {albums.map((album) => (
               <AlbumCard key={album.id} album={album} />
+            ))}
+          </ScrollShadow>
+          <ScrollShadow
+            className="flex flex-row m-2 p-4 gap-2 overflow-scroll"
+            orientation="horizontal"
+          >
+            {artists.map((artist) => (
+              <ArtistCard key={artist.id} artist={artist} />
             ))}
           </ScrollShadow>
         </div>
