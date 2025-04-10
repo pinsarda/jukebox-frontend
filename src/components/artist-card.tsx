@@ -1,4 +1,5 @@
-import { Card, CardHeader, CardBody, Image } from "@heroui/react";
+import { Card, Image } from "@heroui/react";
+import { useNavigate } from "react-router-dom";
 
 import { Artist } from "@/types/backend";
 
@@ -7,20 +8,31 @@ interface ArtistCardProps {
 }
 
 export default function ArtistCard({ artist }: ArtistCardProps) {
+  let navigate = useNavigate();
+
   return (
-    <Card className="py-4 w-5/12">
-      <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
-        <Image
-          alt="Card background"
-          className="object-cover rounded-xl"
-          height={150}
-          src="https://heroui.com/images/hero-card-complete.jpeg"
-          width={150}
-        />
-      </CardHeader>
-      <CardBody className="overflow-visible py-2 px-4">
-        <h4 className="font-bold text-3xl">{artist.name}</h4>
-      </CardBody>
+    <Card
+      className="flex-column p-4 items-center justify-items-center gap-4 h-80 w-64 min-h-80 min-w-64 max-h-96"
+      disableRipple={true}
+      fullWidth={false}
+      isHoverable={true}
+      isPressable={true}
+      onPress={() => {
+        navigate("/artist/" + artist.id);
+      }}
+    >
+      <Image
+        alt="Card background"
+        className="object-cover rounded-full"
+        height={196}
+        src={"/api/static/artists/" + artist.id + ".jpg"}
+        width={196}
+      />
+      <div className="w-full">
+        <h4 className="w-full font-bold text-large text-start truncate">
+          {artist.name}
+        </h4>
+      </div>
     </Card>
   );
 }

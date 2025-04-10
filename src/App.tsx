@@ -11,6 +11,7 @@ import DocsPage from "@/pages/docs";
 import PricingPage from "@/pages/pricing";
 import BlogPage from "@/pages/blog";
 import AboutPage from "@/pages/about";
+import ArtistPage from "./pages/artist";
 
 const queryClient = new QueryClient();
 
@@ -36,6 +37,7 @@ function App() {
           <Route element={<AboutPage />} path="/about" />
           <Route element={<SearchPage />} path="/search" />
           <Route element={<AlbumPage />} path="/album/:id/" />
+          <Route element={<ArtistPage />} path="/artist/:id/" />
           <Route element={<TablePage />} path="/" />
         </Route>
         <Route element={<LoginPage />} path="/login" />
