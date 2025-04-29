@@ -1,9 +1,10 @@
-import { Card, Image, Link, Spinner } from "@heroui/react";
+import { Button, Card, Image, Link, Spinner } from "@heroui/react";
 import { useQuery } from "@tanstack/react-query";
 import prettyMilliseconds from "pretty-ms";
 
 import { Music } from "@/types/backend";
 import { add_to_queue } from "@/api-wrapper";
+import { AppleIcon, DeezerIcon, SpotifyIcon, YoutubeIcon } from "./icons";
 
 interface MusicCardProps {
   music: Music;
@@ -51,6 +52,20 @@ export default function MusicCard({ music }: MusicCardProps) {
         >
           {music.artists[0].name}
         </Link>
+      </div>
+      <div className="flex gap-4 items-center">
+      <Button isIconOnly aria-label="Go to YouTube" color="default" variant="faded">
+        <YoutubeIcon />
+      </Button>
+      <Button isIconOnly aria-label="Go to Deezer" color="default" variant="faded">
+        <DeezerIcon />
+      </Button>
+      <Button isIconOnly aria-label="Go to Spotify" color="default" variant="faded">
+        <SpotifyIcon />
+      </Button>
+      <Button isIconOnly aria-label="Go to AppleMusic" color="default" variant="faded">
+        <AppleIcon />
+      </Button>
       </div>
       {isLoading && <Spinner />}
       <Link
