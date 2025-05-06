@@ -22,16 +22,31 @@ export const DetailsPanel = ({
             shadow="sm"
         >
             {!isLoading && !empty && 
-            <div className="h-full flex p-4 flex-col gap-5 overflow-scroll">
-                <Image
-                alt="Card background"
-                className="object-cover rounded-xl"
-                src={"/api/static/" + 
-                    state.queue[state.queue_index].album_id
-                    + "/cover.jpg"}
-                />
-                <p className="self-center">Artist : {state.queue[state.queue_index].artists[0].name}</p>
-                </div>
+<div className="h-full flex p-4 flex-col gap-5 overflow-scroll">
+{/* Album Cover Section */}
+<div className="flex justify-center">
+    <Image
+        alt="Album cover"
+        className="object-cover rounded-xl w-48 h-48"
+        src={"/api/static/" + state.queue[state.queue_index].album_id + "/cover.jpg"}
+    />
+</div>
+
+{/* Artist Info Section */}
+<div className="flex flex-col items-center bg-black/60 text-white rounded-xl p-4 gap-4">
+    <Image
+        alt="Artist"
+        className="object-cover rounded-full w-32 h-32"
+        src={"/api/static/artists/" + state.queue[state.queue_index].artists[0].id + ".jpg"}
+    />
+    <p className="text-lg font-semibold text-center">
+        {state.queue[state.queue_index].artists[0].name}
+    </p>
+    <p className="text-sm text-center">
+        {state.queue[state.queue_index].artists[0].description}
+    </p>
+</div>
+</div>
             }
         </Card>
     );
