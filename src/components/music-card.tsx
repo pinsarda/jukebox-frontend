@@ -54,7 +54,7 @@ export default function MusicCard({ music }: MusicCardProps) {
         </Link>
       </div>
       <div className="flex gap-4 items-center">
-      <Button isIconOnly aria-label="Go to YouTube" color="default" variant="faded">
+      {/* <Button isIconOnly aria-label="Go to YouTube" color="default" variant="faded">
         <YoutubeIcon />
       </Button>
       <Button isIconOnly aria-label="Go to Deezer" color="default" variant="faded">
@@ -65,7 +65,7 @@ export default function MusicCard({ music }: MusicCardProps) {
       </Button>
       <Button isIconOnly aria-label="Go to AppleMusic" color="default" variant="faded">
         <AppleIcon />
-      </Button>
+      </Button> */}
       </div>
       {isLoading && <Spinner />}
       <Link

@@ -1,5 +1,6 @@
 import { PlayerState } from "@/types/backend";
 import { Card, Image } from "@heroui/react";
+import { Queue } from "./queue";
 
 
 interface DetailsPanelProps {
@@ -31,7 +32,8 @@ export const DetailsPanel = ({
                     + "/cover.jpg"}
                 />
                 <p className="self-center">Artist : {state.queue[state.queue_index].artists[0].name}</p>
-                </div>
+                <Queue isLoading={isLoading} state={state}/>
+            </div>
             }
         </Card>
     );
