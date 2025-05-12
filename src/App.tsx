@@ -13,6 +13,7 @@ import BlogPage from "@/pages/blog";
 import AboutPage from "@/pages/about";
 import ArtistPage from "./pages/artist";
 import FavoritesPage from "./pages/favorites";
+import PlaylistPage from "./pages/playlist";
 
 const queryClient = new QueryClient();
 
@@ -39,6 +40,7 @@ function App() {
           <Route element={<SearchPage />} path="/search" />
           <Route element={<AlbumPage />} path="/album/:id/" />
           <Route element={<ArtistPage />} path="/artist/:id/" />
+          <Route element={<PlaylistPage />} path="/playlist/:id/" />
           <Route element={<FavoritesPage />} path="/" />
         </Route>
         <Route element={<LoginPage />} path="/login" />
