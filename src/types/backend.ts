@@ -12,4 +12,6 @@ export type PlayerState = components["schemas"]["RichPlayerState"];
 
 export type SearchQuery = components["schemas"]["SearchQuery"];
 
+export type SearchResult = components["schemas"]["SearchResult"];
+
 export type FetcherMusic = components["schemas"]["FetcherMusic"];
