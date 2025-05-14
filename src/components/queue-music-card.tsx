@@ -3,16 +3,17 @@ import { useQuery } from "@tanstack/react-query";
 import prettyMilliseconds from "pretty-ms";
 
 import { Music } from "@/types/backend";
-import { add_to_queue } from "@/api-wrapper";
+import { add_to_queue, move_in_queue } from "@/api-wrapper";
 import {useSortable} from '@dnd-kit/sortable';
 import {CSS} from '@dnd-kit/utilities';
 
 interface QueueMusicCardProps {
   music: Music;
+  queue_index: number;
   highlighted?: boolean;
 }
 
-export default function QueueMusicCard({ music, highlighted = false }: QueueMusicCardProps) {
+export default function QueueMusicCard({ music, queue_index, highlighted = false }: QueueMusicCardProps) {
   const {
     attributes,
     listeners,
@@ -29,13 +30,13 @@ export default function QueueMusicCard({ music, highlighted = false }: QueueMusi
   return (
     <button ref={setNodeRef} className="w-full" style={style} {...listeners} {...attributes}
       onClick={() => {
-        
+        move_in_queue(queue_index);
       }}>
       <Card
         className={`flex-row p-4 items-center justify-items-center gap-4 ${highlighted ? 'bg-primary-50' : ''}`}
         disableRipple={true}
         fullWidth={true}
-        isHoverable={true}
+        isHoverable={!highlighted}
         isPressable={false}
       >
         <Image

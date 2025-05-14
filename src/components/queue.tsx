@@ -55,9 +55,9 @@ export const Queue = ({
                     <div className="w-full justify-items-center m-2 space-y-2">
                         {queueItems.map((music: Music, index: number) => (
                             index != state.queue_index ? (
-                                <QueueMusicCard key={music.id} music={music}/>
+                                <QueueMusicCard key={music.id} music={music} queue_index={index}/>
                             ) : (
-                                <QueueMusicCard key={music.id} music={music} highlighted={true}/>
+                                <QueueMusicCard key={music.id} music={music} queue_index={index} highlighted={true}/>
                             )
                         ))}
                     </div>

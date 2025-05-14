@@ -152,6 +152,18 @@ export async function move_music_in_queue(old_index: number, new_index: number) 
   return res;
 }
 
+export async function move_in_queue(index: number) {
+  const res = await fetch("/api/player/move_in_queue", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ index: index }),
+  });
+
+  return res;
+}
+
 
 export async function add_favorite_music(id: number) {
   const res = await fetch("/api/music/add_favorite", {
