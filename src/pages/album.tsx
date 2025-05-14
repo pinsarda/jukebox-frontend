@@ -28,6 +28,25 @@ export default function AlbumPage() {
       ).then((res) => res.json()),
   });
 
+  const { isLoading: isUserLoading, data: userData } = useQuery({
+    queryKey: ["user", data?.origin_user_id],
+    queryFn: () =>
+      fetch(
+        "/api/user/get_info?" +
+          new URLSearchParams({
+            id: data?.origin_user_id ?? "",
+          }).toString(),
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      ).then((res) => res.json()),
+    enabled: !!data?.origin_user_id,
+  });
+
+
   return (
     <DefaultLayout>
       <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10 w-full">
@@ -54,8 +73,8 @@ export default function AlbumPage() {
                     ))}
                   </div>
                   <Divider className="w-full mt-4 mb-4" />
-                  <p>Ajouté par <Link underline="hover">Narcisse</Link></p>
-                  <p>Passée 42 fois, dont 21 par vous. <Link isExternal showAnchorIcon underline="hover">Toutes les statistiques</Link></p>
+                  <p>Ajouté par <Link underline="hover">{userData?.username}</Link></p>
+                  {/* <p>Passée 42 fois, dont 21 par vous. <Link isExternal showAnchorIcon underline="hover">Toutes les statistiques</Link></p> */}
                   <div className="flex flex-row items-center gap-3">
                     <Button
                       isIconOnly
