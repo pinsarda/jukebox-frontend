@@ -6,7 +6,8 @@ import { Image, Divider } from "@heroui/react";
 import DefaultLayout from "@/layouts/default";
 import MusicCard from "@/components/music-card";
 import { Artist, Music } from "@/types/backend";
-import { AppleIcon, DeezerIcon, HeartIcon, PlayCircleIcon, SpotifyIcon, YoutubeIcon } from "@/components/icons";
+import FetcherButton from "@/components/fetcher-button";
+import { HeartIcon, PlayCircleIcon } from "@/components/icons";
 
 export default function AlbumPage() {
   const { id } = useParams();
@@ -105,18 +106,7 @@ export default function AlbumPage() {
                         }
                       />
                     </Button>
-                    <Button isIconOnly aria-label="Go to YouTube" color="default" variant="faded">
-                      <YoutubeIcon />
-                    </Button>
-                    <Button isIconOnly aria-label="Go to Deezer" color="default" variant="faded">
-                      <DeezerIcon />
-                    </Button>
-                    <Button isIconOnly aria-label="Go to Spotify" color="default" variant="faded">
-                      <SpotifyIcon />
-                    </Button>
-                    <Button isIconOnly aria-label="Go to AppleMusic" color="default" variant="faded">
-                      <AppleIcon />
-                    </Button>
+                    <FetcherButton type={"album"} fetcher={data.fetcher} fetcher_id={data.youtube_id}/>
                   </div>
                 </div>
               </div>
