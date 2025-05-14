@@ -20,6 +20,7 @@ import {
   ShuffleIcon,
   VolumeIcon,
   VolumeMutedIcon,
+  TrashIcon,
 } from "@/components/icons";
 import {
   add_favorite_music,
@@ -30,6 +31,8 @@ import {
   previous,
   remove_favorite_music,
   seek,
+  shuffle_playlist,
+  clear_song_queue,
 } from "@/api-wrapper";
 import { PlayerState } from "@/types/backend";
 import { socket } from "@/websocket";
@@ -236,9 +239,25 @@ export default function Player({
                         className="data-[hover]:bg-foreground/10"
                         radius="full"
                         variant="light"
+                        onPress={async () => {
+                          shuffle_playlist(); 
+                          refetch(); 
+                        }}
                       >
                         <ShuffleIcon className="text-foreground/80" />
                       </Button>
+                      <Button
+                        isIconOnly
+                        className="data-[hover]:bg-foreground/10"
+                        radius="full"
+                        variant="light"
+                        onPress={async () => {
+                        clear_song_queue();
+                        refetch();
+                        }}
+                      > 
+                        <TrashIcon className="text-foreground/80" /> {/* Replace with an appropriate icon */}
+                    </Button>
                     </div>
                   </div>
                 </div>
