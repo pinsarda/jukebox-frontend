@@ -135,7 +135,11 @@ export const SearchBar = () => {
         )}
         </>
       </Autocomplete>
-      <Button isIconOnly variant="bordered">
+      <Button isIconOnly variant="bordered" 
+        onPress={() => navigate("/search?" + new URLSearchParams({
+          query: value,
+          provider: provider.id
+        }).toString(),)}>
         <SearchIcon className="text-base text-default-400 pointer-events-none flex-shrink-0" />
       </Button>
       <Dropdown>
