@@ -68,7 +68,7 @@ export default function AlbumPage() {
                     {/* to improve : */}
                     {data.artists.map((artist: Artist) => (
                       <span key={artist.id}>
-                        <Link underline="hover" color="foreground" key={artist.id} className="text-lg">{artist.name}</Link>
+                        <Link underline="hover" color="foreground" key={artist.id} className="text-lg" href={"/artist/" + artist.id}>{artist.name}</Link>
                       </span>
                     ))}
                   </div>
