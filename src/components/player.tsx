@@ -178,13 +178,25 @@ export default function Player({
 
                     <div className="flex w-full items-center justify-center">
                       <Button
+                          isIconOnly
+                          className="data-[hover]:bg-foreground/10"
+                          radius="full"
+                          variant="light"
+                          onPress={async () => {
+                            clear_song_queue();
+                            refetch();
+                          }}
+                        > 
+                          <TrashIcon className="text-foreground/80" />
+                      </Button>
+                      {/* <Button
                         isIconOnly
                         className="data-[hover]:bg-foreground/10"
                         radius="full"
                         variant="light"
                       >
                         <RepeatOneIcon className="text-foreground/80" />
-                      </Button>
+                      </Button> */}
                       <Button
                         isIconOnly
                         className="data-[hover]:bg-foreground/10"
@@ -246,18 +258,6 @@ export default function Player({
                       >
                         <ShuffleIcon className="text-foreground/80" />
                       </Button>
-                      <Button
-                        isIconOnly
-                        className="data-[hover]:bg-foreground/10"
-                        radius="full"
-                        variant="light"
-                        onPress={async () => {
-                        clear_song_queue();
-                        refetch();
-                        }}
-                      > 
-                        <TrashIcon className="text-foreground/80" /> {/* Replace with an appropriate icon */}
-                    </Button>
                     </div>
                   </div>
                 </div>
