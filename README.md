@@ -1,58 +1,97 @@
-# Vite & HeroUI Template
+# Jukebox
 
-This is a template for creating applications using Vite and HeroUI (v2).
+An open jukebox to control music from a local network (frontend)
 
-[Try it on CodeSandbox](https://githubbox.com/frontio-ai/vite-template)
+## Setup instructions :
 
-## Technologies Used
+### Docker :
 
-- [Vite](https://vitejs.dev/guide/)
-- [HeroUI](https://heroui.com)
-- [Tailwind CSS](https://tailwindcss.com)
-- [Tailwind Variants](https://tailwind-variants.org)
-- [TypeScript](https://www.typescriptlang.org)
-- [Framer Motion](https://www.framer.com/motion)
+Docker is the recommended way to run this project.
 
-## How to Use
+The attached docker compose file has to be filled with the appropriate api keys to be used. The docker container must be run in privileged mode to use the sound card with the container.
 
-To clone the project, run the following command:
+`git clone https://github.com/pinsarda/jukebox-backend.git`
+`cd jukebox-backend`
+`docker build . -t jukebox`
+`cd ..`
 
-```bash
-git clone https://github.com/frontio-ai/vite-template.git
+This repository only provides the server side of the project. A compatible UI is required for practical use, see [jukebox-frontend](https://github.com/pinsarda/jukebox-frontend). 
+
+`git clone https://github.com/pinsarda/jukebox-frontend.git`
+`cd jukebox-frontend`
+`docker build . -t jukebox-frontend`
+
+Now that the docker images are built, make sure to edit `docker-compose.yaml` with your own configuration. Without proper api keys, the server won't start.
+
+`docker compose up`
+
+#### Run only the api container :
+
+```
+docker run --privileged --device /dev/snd --network=jukebox -p 8080:8080 --volume /path/to/storage:/jukebox/Storage --name jukebox \
+-e DATABASE_URL=postgres://postgres:mysecretpassword@jukebox-postgres:5432/diesel_demo \
+-e RUST_LOG=debug \
+-e RUST_BACKTRACE=0 \
+-e YOUTUBE_API_KEY="YOUR KEY" \
+-e YOUTUBE_MUSIC_COOKIE="YOUR COOKIE" \
+-e MUSICAPI_TOKEN="Token YOUR TOKEN" \
+-e PLAYER_DISABLED=0 \
+jukebox
 ```
 
-### Install dependencies
+### Natively
 
-You can use one of them `npm`, `yarn`, `pnpm`, `bun`, Example using `npm`:
+#### Building from source
 
-```bash
-npm install
+Alternatively, you can build from source.
+yt-dlp, ffmpeg and a postgres database are required. A .env file can contain the environment variables at the root of the project.
+
+`git clone https://github.com/pinsarda/jukebox-backend.git`
+`cd jukebox-backend`
+`cargo build --release`
+
+To build [jukebox-frontend](https://github.com/pinsarda/jukebox-frontend) sources :
+
+`git clone https://github.com/pinsarda/jukebox-frontend.git`
+`cd jukebox-frontend`
+`npm install`
+`npm run build`
+
+Then you can now host the `dist/` folder statically using a server of your choice.
+
+## Documentation
+
+API docs are accessible at [https://localhost:8080/swagger-ui/](https://localhost:8080/swagger-ui/)
+
+### Nginx configuration
+
+For a fully working deployment, see the docker-compose file. To run the web interface, http://yourwebinterface.domain/api must resolve to the port 8080 of your docker container. In the proposed docker compose, it is achieved through nginx with this configuration at ./nginx/nginx.conf :
+
 ```
+events {
+    worker_connections  1024;
+}
 
-### Run the development server
+http {
+    access_log  /etc/nginx/nginx.log;
+    server {
+        listen 80;
+        server_name jukebox;
 
-```bash
-npm run dev
+        location / {
+            proxy_redirect  http://jukebox-frontend:80/  /;
+            proxy_pass http://jukebox-frontend:80;
+        }
+        
+        location /api/ {
+            proxy_redirect  http://jukebox:8080/  /api/;
+            proxy_pass http://jukebox:8080/;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "upgrade";
+        }
+
+    }
+}
 ```
-
-### Setup pnpm (optional)
-
-If you are using `pnpm`, you need to add the following code to your `.npmrc` file:
-
-```bash
-public-hoist-pattern[]=*@heroui/*
-```
-
-After modifying the `.npmrc` file, you need to run `pnpm install` again to ensure that the dependencies are installed correctly.
-
-## Docker Image
-
-```bash
-docker build . -t jukebox-frontend
-```
-
-(See [jukebox backend](https://github.com/pinsarda/jukebox-backend))
-
-## License
-
-Licensed under the [MIT license](https://github.com/frontio-ai/vite-template/blob/main/LICENSE).
