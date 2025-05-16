@@ -514,3 +514,28 @@ export const AppleIcon = ({fill = "currentColor", size = 25, height = 25, width 
     </svg>
   );
 };
+export const TrashIcon = ({
+  size = 24,
+  width = 24,
+  height = 24,
+  fill = "currentColor",
+  ...props
+}: IconSvgProps) => {
+  return (
+    <svg
+      aria-hidden="true"
+      fill={fill}
+      focusable="false"
+      height={size || height}
+      role="presentation"
+      viewBox="0 0 24 24"
+      width={size || width}
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <path
+        d="M9 3h6a1 1 0 0 1 1 1v1h4a1 1 0 1 1 0 2h-1v12a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3V7H4a1 1 0 1 1 0-2h4V4a1 1 0 0 1 1-1zm1 2v1h4V5h-4zm-3 4a1 1 0 0 1 1 1v8a1 1 0 1 1-2 0V9a1 1 0 0 1 1-1zm8 0a1 1 0 0 1 1 1v8a1 1 0 1 1-2 0V9a1 1 0 0 1 1-1zm-4 0a1 1 0 0 1 1 1v8a1 1 0 1 1-2 0V9a1 1 0 0 1 1-1z"
+      />
+    </svg>
+  );
+};

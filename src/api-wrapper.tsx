@@ -188,3 +188,26 @@ export async function remove_favorite_music(id: number) {
 
   return res;
 }
+
+export async function clear_song_queue() {
+  const res = await fetch("api/player/clear_queue", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  return res;
+}
+
+
+export async function shuffle_playlist() {
+  const res = await fetch("api/player/shuffle", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  return res;
+}
